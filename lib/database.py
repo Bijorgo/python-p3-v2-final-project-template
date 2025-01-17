@@ -1,0 +1,1 @@
+DATABASE = "playlist_manager.db"
