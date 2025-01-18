@@ -85,7 +85,7 @@ class Playlist:
     def save(self):
         """Insert a new row with the values of the current instance into playlists. 
         Update object id attribute using primary key value of the new row.
-        Save the object to all_playlists dictionart using the row' primary key as the dictionary key."""
+        Save the object to all_playlists dictionary using the row's primary key as the dictionary key."""
         sql = """
             INSERT INTO playlists (name, description)
             VALUES (?, ?)
@@ -148,8 +148,10 @@ class Playlist:
 
     @classmethod
     def add_song():
+        from song import Song
         pass
 
     @classmethod
     def remove_song():
+        from song import Song
         pass
