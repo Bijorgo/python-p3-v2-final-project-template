@@ -1,7 +1,7 @@
 from models.__init__ import CURSOR, CONN
 
 class Song:
-    all_songs = []
+    all_songs = {}
 
     def __init__(self, title, artist, genre, duration=None):
         self.id = None # id assignment will happen in database
@@ -54,26 +54,99 @@ class Song:
         self.duration = duration
         
     # Class methods
-    #@classmethod
-    #def add_to_all_songs(cls):
-        #Song.all_songs.append() 
+    @classmethod
+    def create_table(cls):
+        """Create a new table that persists the attibutes of Song instances"""
+        sql = """
+            CREATE TABLE IF NOT EXISTS songs(
+            id INTEGER PRIMARY KEY
+            title TEXT
+            artist TEXT
+            genre TEXT 
+            duration REAL
+            )"""
+        CURSOR.execute(sql)
+        CONN.commit()
+
+    @classmethod
+    def drop_table(cls):
+        """Delete the table that persists Song instances"""
+        sql = """
+            DROP TABLE IF EXISTS songs
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
            
     @classmethod   
     def create(cls, title, artist, genre, duration):
-        """Create new song in database""" 
-        Song(title, artist, genre, duration)
-        # consider preventing duplicate songs
+        """Inititalize a new Song instance and save to database""" 
+        song = cls(title, artist, genre, duration)
+        song.save()
 
-    def delete(self, ):
-        """Delete song in database by id""" 
-        pass
-
+    @classmethod
+    def instance_from_db(cls, row):
+        """Return a Song object with attribute values from table row"""
+        song = cls.all_songs.get(row[0])
+        if song:
+            song.title = row[1]
+            song.artist = row[2]
+            song.genre = row[3]
+            song.duration = row[4]
+        else:
+            song = cls(row[1], row[2], row[3], row[4])
+            song.id = row[0]
+            Song.all_songs[song.id] = song
+        return song
+    
     @classmethod
     def get_all(cls):
-        """Retrieve all songs in database""" 
-        pass
+        """Return a list containing a Song object per row in the table""" 
+        sql = """
+            SELECT *
+            FROM songs
+        """
+
+        rows = CURSOR.execute(sql).fetchall()
+        return [Song.instance_from_db(row) for row in rows]
 
     @classmethod
-    def find_by_attribute(cls, attribute, value):
-        """Find song in database by title, artist, or genre""" 
-        pass
+    def find_by_title(cls, title):
+        """Return a Song object correspnding to the first row matching the given title"""
+        sql = """
+            SELECT *
+            FROM songs
+            WHERE title is ?
+        """
+
+        row = CURSOR.execute(sql, (title,)).fetchone()
+        return Song.instance_from_db(row) if row else None
+
+    #@classmethod
+    #def find_by_artist(cls, artist):
+        #"""Return a list of Song objects corresspondng to a given artist"""
+
+    # Instance methods
+    def save(self):
+        """Insert a new row with the values of the current instance into songs.
+        Update object id atribute using primary key value of the new row.
+        Save the bject to all_songs dictionary using the row's primary key as the dictionary key"""
+        sql = """
+            INSERT INTO songs
+            VALUES (?, ?, ?, ?)
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
+
+    def delete(self):
+        """Delete the row corresponding to the current Song instance,
+        delete dictionary entry, and ressaign id attribute.""" 
+        sql = """
+            DELETE FROM songs
+            WHERE id = ?"""
+        CURSOR.execute(sql)
+        CONN.commit()
+
+        # Delete dictionary entry by id
+        del type(self).all_songs[self.id]
+        # Set id to None
+        self.id = None

@@ -58,7 +58,7 @@ class Playlist:
 
     @classmethod
     def instance_from_db(cls, row):
-        """Docstring"""
+        """Return a Playlist object with attribute values from table row"""
         playlist = cls.all_playlists.get(row[0])
         if playlist:
             playlist.name = row[1]
