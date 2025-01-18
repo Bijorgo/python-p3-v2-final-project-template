@@ -9,7 +9,6 @@ class Song:
         self._artist = artist
         self._genre = genre
         self._duration = duration
-        Song.all_songs.append(self)
 
     # All attribute getters
     @property
@@ -31,27 +30,27 @@ class Song:
     # All attribute setters
     @title.setter
     def title(self, title):
-        if not isinstance(title, str) and len(title) > 0:
+        if not isinstance(title, str) or len(title) == 0:
             raise ValueError("Title must be a string of one or more characters")
         self._title = title
 
     @artist.setter
     def artist(self, artist):
-        if not isinstance(artist, str) and len(artist) > 0:
+        if not isinstance(artist, str) or len(artist) == 0:
             raise ValueError("Artist must be a string one or more characters")
         self._artist = artist
         
     @genre.setter
     def genre(self, genre):
-        if not isinstance(genre, str) and len(genre) > 0:
+        if not isinstance(genre, str) or len(genre) == 0:
             raise ValueError("Genre must be a string one or more characters")
         self._genre = genre
         
     @duration.setter
     def duration(self, duration):
-        if not isinstance(duration, float):
+        if not isinstance(duration, (float, int)):
             raise ValueError("Duration must be a decimal number")
-        self.duration = duration
+        self._duration = duration
         
     # Class methods
     @classmethod
@@ -59,10 +58,10 @@ class Song:
         """Create a new table that persists the attibutes of Song instances"""
         sql = """
             CREATE TABLE IF NOT EXISTS songs(
-            id INTEGER PRIMARY KEY
-            title TEXT
-            artist TEXT
-            genre TEXT 
+            id INTEGER PRIMARY KEY,
+            title TEXT,
+            artist TEXT,
+            genre TEXT,
             duration REAL
             )"""
         CURSOR.execute(sql)
@@ -92,10 +91,10 @@ class Song:
             song.artist = row[2]
             song.genre = row[3]
             song.duration = row[4]
-        else:
-            song = cls(row[1], row[2], row[3], row[4])
-            song.id = row[0]
-            Song.all_songs[song.id] = song
+        #else:
+            #song = cls(row[1], row[2], row[3], row[4])
+            #song.id = row[0]
+            #Song.all_songs[song.id] = song
         return song
     
     @classmethod
@@ -115,7 +114,7 @@ class Song:
         sql = """
             SELECT *
             FROM songs
-            WHERE title is ?
+            WHERE title = ?
         """
 
         row = CURSOR.execute(sql, (title,)).fetchone()
@@ -127,15 +126,18 @@ class Song:
 
     # Instance methods
     def save(self):
-        """Insert a new row with the values of the current instance into songs.
-        Update object id atribute using primary key value of the new row.
-        Save the bject to all_songs dictionary using the row's primary key as the dictionary key"""
+        """Insert a new row with the values of the current instance into songs."""
         sql = """
             INSERT INTO songs
             VALUES (?, ?, ?, ?)
         """
-        CURSOR.execute(sql)
+        CURSOR.execute(sql, (self.title, self.artist, self.genre, self.duration))
         CONN.commit()
+
+        # Update object id atribute using primary key value of the new row.
+        self.id = CURSOR.lastrowid
+        # Save the bject to all_songs dictionary using the row's primary key as the dictionary key
+        Song.all_songs[self.id] = self
 
     def delete(self):
         """Delete the row corresponding to the current Song instance,
@@ -143,7 +145,7 @@ class Song:
         sql = """
             DELETE FROM songs
             WHERE id = ?"""
-        CURSOR.execute(sql)
+        CURSOR.execute(sql, (self.id))
         CONN.commit()
 
         # Delete dictionary entry by id

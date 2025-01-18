@@ -9,10 +9,13 @@ class Junction:
     def create_table(cls):
         """Creates junctions table if it doesn't already exist"""
         sql = """
-            CREATE TABLE junctions(
-            id PRIMARY KEY
-            playlist_id FOREIGN KEY
-            song_id FOREIGN KEY)
+            CREATE TABLE IF NOT EXISTS junctions(
+                id PRIMARY KEY,
+                playlist_id INT,
+                song_id INT,
+                FOREIGN KEY (playlist_id) REFERENCES playlists(id),
+                FOREIGN KEY (song_id) REFERENCES songs(id)
+            )
         """
         CURSOR.execute(sql)
         CONN.commit()
@@ -21,7 +24,7 @@ class Junction:
     def drop_table(cls):
         """Deletes junction table"""
         sql = """
-            DELETE TABLE IF EXISTS junctions
+            DROP TABLE IF EXISTS junctions
         """
 
         CURSOR.execute(sql)
@@ -35,8 +38,14 @@ class Junction:
             WHERE playlist_id is ?
             AND song_id is ?
         """
-        CURSOR.execute(sql,(playlist_id, song_id,))
-        CONN.commit()
+        result = CURSOR.execute(sql,(playlist_id, song_id,)).fetchone()
+        if not result:
+            sql_insert = """
+                INSERT INTO junctions (playlist_id, song_id)
+                VALUES (?, ?)
+            """
+            CURSOR.execute(sql_insert, (playlist_id, song_id))
+            CONN.commit()
 
     def remove_song_from_playlist(self, playlist_id, song_id):
         """Delete a song from a playlist in junctions table"""
@@ -48,7 +57,7 @@ class Junction:
         CURSOR.execute(sql,(playlist_id, song_id,))
         CONN.commit()
 
-    def view_songs_in_playlist(self):
+    def view_songs_in_playlist(self, playlist_id):
         """Retrieves all songs in a specific playlist by joining the Junction and Songs tables"""
         # Shuffle function would go here
         sql = """
@@ -57,7 +66,7 @@ class Junction:
             JOIN junctions ON songs.id = junctions.song_id
             WHERE junctions.playlist_id is ?
         """
-        songs = CURSOR.execute(sql,(playlist_id)).fetchall
+        songs = CURSOR.execute(sql,(playlist_id)).fetchall()
         if songs:
             for song in songs:
                 print(f"TYPE THINGS HERE {song[0]}")
