@@ -7,7 +7,7 @@ class Junction:
 
     @classmethod
     def create_table(cls):
-        """Creates a junctions table if it doesn't already exist"""
+        """Creates junctions table if it doesn't already exist"""
         sql = """
             CREATE TABLE junctions(
             id PRIMARY KEY
@@ -19,18 +19,50 @@ class Junction:
 
     @classmethod
     def drop_table(cls):
-        pass
+        """Deletes junction table"""
+        sql = """
+            DELETE TABLE IF EXISTS junctions
+        """
+
+        CURSOR.execute(sql)
+        CONN.commit()
 
     def add_song_to_playlsit(self, playlist_id, song_id):
-        pass
+        """Add a song to a playlist in junctions table"""
+        sql = """
+            SELECT 1
+            FROM junctions
+            WHERE playlist_id is ?
+            AND song_id is ?
+        """
+        CURSOR.execute(sql,(playlist_id, song_id,))
+        CONN.commit()
 
     def remove_song_from_playlist(self, playlist_id, song_id):
-        pass
+        """Delete a song from a playlist in junctions table"""
+        sql = """
+            DELETE FROM junctions
+            WHERE playlist_id is ?
+            AND song_id is ?
+        """
+        CURSOR.execute(sql,(playlist_id, song_id,))
+        CONN.commit()
 
     def view_songs_in_playlist(self):
         """Retrieves all songs in a specific playlist by joining the Junction and Songs tables"""
         # Shuffle function would go here
-        pass
+        sql = """
+            SELECT songs.id, songs.title, songs.artist, songs.genre, songs.duration
+            FROM songs
+            JOIN junctions ON songs.id = junctions.song_id
+            WHERE junctions.playlist_id is ?
+        """
+        songs = CURSOR.execute(sql,(playlist_id)).fetchall
+        if songs:
+            for song in songs:
+                print(f"TYPE THINGS HERE {song[0]}")
+        else:
+            print("No songs found in playlist.")
 
     def get_songs_in_playlsit(playlist_id):
         """Retrieves all song IDs in a specific playlist"""
@@ -40,4 +72,11 @@ class Junction:
     def find_by_playlist_id(self, playlist_id):
         """Retrieves all songs in a playlsit by playlist id"""
         # not sure about which class this should go in
-        pass
+        sql = """
+            SELECT songs.id, songs.title
+            FROM songs
+            JOIN junctions ON songs.id = junctions.song_id
+            WHERE junctions.playlist_id = ?
+        """
+        songs = CURSOR.execute(sql,(playlist_id,)).fetchall()
+        return songs
