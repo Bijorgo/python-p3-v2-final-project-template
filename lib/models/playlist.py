@@ -1,4 +1,5 @@
 class Playlist:
+    all_playlists = []
     def __init__(self, name, description):
         self.id = None  # id will be set in database
         self._name = name
@@ -27,11 +28,12 @@ class Playlist:
     
     # Methods
     @classmethod
-    def create():
-        pass
+    def create(self, name, description):
+        Playlist(name, description)
+        Playlist.all_playlists.append(self)
 
     @classmethod
-    def delete():
+    def delete(self):
         pass
 
     @classmethod
