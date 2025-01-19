@@ -1,4 +1,4 @@
-from __init__ import CURSOR, CONN
+from models.__init__ import CURSOR, CONN
 
 class Playlist:
     all_playlists = {}
