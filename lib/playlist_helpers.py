@@ -4,7 +4,16 @@ from models.song import Song
 from models.junction import Junction
 
 def create_new_playlist():
-    print("Performing useful function#1.")
+    pass
+
+def delete_playlist():
+    pass
+
+def display_all_playlists():
+    pass
+
+def find_playlist_by_name():
+    pass
 
 
 def exit_program():
