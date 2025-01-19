@@ -37,7 +37,15 @@ def main():
 def menu():
     print("Please select an option:")
     print("0. Exit the program")
-    print("1. Some useful function")
+    print("1. Create New Playlist")
+    print("2. Delete Playlist")
+    print("3. Display all Playlists")
+    print("4. Find A Playlist")
+    print("5. Add A Song")
+    print("6. Delete A Song")
+    print("7. Display All Songs")
+    print("8. Find A Song")
+    print("9. Add Song to Playlist")
 
 
 if __name__ == "__main__":
