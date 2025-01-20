@@ -90,16 +90,17 @@ class Song:
     @classmethod
     def instance_from_db(cls, row):
         """Return a Song object with attribute values from table row"""
+
         song = cls.all_songs.get(row[0])
         if song:
             song.title = row[1]
             song.artist = row[2]
             song.genre = row[3]
             song.duration = row[4]
-        #else:
-            #song = cls(row[1], row[2], row[3], row[4])
-            #song.id = row[0]
-            #Song.all_songs[song.id] = song
+        else:
+            song = cls(row[1], row[2], row[3], row[4])
+            song.id = row[0]
+            Song.all_songs[song.id] = song
         return song
     
     @classmethod
@@ -171,7 +172,7 @@ class Song:
         sql = """
             DELETE FROM songs
             WHERE id = ?"""
-        CURSOR.execute(sql, (self.id))
+        CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
         # Delete dictionary entry by id
