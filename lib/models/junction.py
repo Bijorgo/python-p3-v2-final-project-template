@@ -10,9 +10,9 @@ class Junction:
         """Creates junctions table if it doesn't already exist"""
         sql = """
             CREATE TABLE IF NOT EXISTS junctions(
-                id INT PRIMARY KEY AUTOINCREMENT,
-                playlist_id INT,
-                song_id INT,
+                id INTEGER PRIMARY KEY,
+                playlist_id INEGER,
+                song_id INTEGER,
                 FOREIGN KEY (playlist_id) REFERENCES playlists(id),
                 FOREIGN KEY (song_id) REFERENCES songs(id)
             )
