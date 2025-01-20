@@ -29,7 +29,7 @@ class Junction:
         CURSOR.execute(sql)
         CONN.commit()
 
-    def add_song_to_playlsit(self, playlist_id, song_id):
+    def add_song_to_playlist(self, playlist_id, song_id):
         """Add a song to a playlist in junctions table"""
         sql = """
             SELECT 1
@@ -46,7 +46,7 @@ class Junction:
             CURSOR.execute(sql_insert, (playlist_id, song_id))
             CONN.commit()
         else:
-            print("Song already exists in playlsit")
+            print("Song already exists in playlist")
 
     def remove_song_from_playlist(self, playlist_id, song_id):
         """Delete a song from a playlist in junctions table"""
@@ -74,13 +74,13 @@ class Junction:
         else:
             print("No songs found in playlist.")
 
-    #def get_songs_in_playlsit(playlist_id):
+    #def get_songs_in_playlist(playlist_id):
         #"""Retrieves all song IDs in a specific playlist"""
         # For advanced function(calculate duration), leave for later
         #pass
 
     def find_by_playlist_id(self, playlist_id):
-        """Retrieves all songs in a playlsit by playlist id"""
+        """Retrieves all songs in a playlist by playlist id"""
         # not sure about which class this should go in
         sql = """
             SELECT songs.id, songs.title
