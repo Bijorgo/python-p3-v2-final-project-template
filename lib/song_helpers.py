@@ -12,5 +12,5 @@ def delete_song():
 def display_all_songs():
     pass
 
-def fond_song_by_title():
+def find_song_by_title():
     pass

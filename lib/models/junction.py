@@ -34,8 +34,8 @@ class Junction:
         sql = """
             SELECT 1
             FROM junctions
-            WHERE playlist_id is ?
-            AND song_id is ?
+            WHERE playlist_id = ?
+            AND song_id = ?
         """
         result = CURSOR.execute(sql,(playlist_id, song_id,)).fetchone()
         if not result:
@@ -52,8 +52,8 @@ class Junction:
         """Delete a song from a playlist in junctions table"""
         sql = """
             DELETE FROM junctions
-            WHERE playlist_id is ?
-            AND song_id is ?
+            WHERE playlist_id = ?
+            AND song_id = ?
         """
         CURSOR.execute(sql,(playlist_id, song_id,))
         CONN.commit()
@@ -65,7 +65,7 @@ class Junction:
             SELECT songs.id, songs.title, songs.artist, songs.genre, songs.duration
             FROM songs
             JOIN junctions ON songs.id = junctions.song_id
-            WHERE junctions.playlist_id is ?
+            WHERE junctions.playlist_id = ?
         """
         songs = CURSOR.execute(sql,(playlist_id)).fetchall()
         if songs:

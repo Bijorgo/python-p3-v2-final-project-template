@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from lib.playlist_helpers import (
+from playlist_helpers import (
     exit_program,
     create_new_playlist,
     delete_playlist,
@@ -8,7 +8,7 @@ from lib.playlist_helpers import (
     find_playlist_by_name
 )
 
-from lib.song_helpers import (
+from song_helpers import (
     create_new_song,
     delete_song,
     display_all_songs,

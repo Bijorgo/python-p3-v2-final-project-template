@@ -8,6 +8,10 @@ class Playlist:
         self._name = name
         self._description = description
 
+    def __repr__(self):
+        """Return a string representation of the playlist for debugging."""
+        return f"Playlist(id={self.id}, name={self.name}, description={self.description})"
+
     # All proprty attributes
     @property
     def name(self):
@@ -57,19 +61,21 @@ class Playlist:
         """Initialize a new Playlist instance and save to the database"""
         playlist = cls(name, description)
         playlist.save()
+        return playlist
 
     @classmethod
     # MAY HAVE ISSUES, OVERRIDES Playlist INSTANCE IN ALL_PLAYLISTS WHEN CALLED, EVEN IF ROW ALREADY EXISTS IN DICTIONARY
     def instance_from_db(cls, row):
         """Return a Playlist object with attribute values from table row"""
+        # Look up playlist by id in all_playlists dictionary
         playlist = cls.all_playlists.get(row[0])
         if playlist:
             playlist.name = row[1]
             playlist.description = row[2]
-        #else:
-            #playlist = cls(row[1], row[2])
-            #playlist.id = row[0]
-            #Playlist.all_playlists[playlist.id] = playlist
+        else:
+            playlist = cls(row[1], row[2])
+            playlist.id = row[0]
+            Playlist.all_playlists[playlist.id] = playlist
         return playlist
     
     @classmethod 
@@ -78,10 +84,31 @@ class Playlist:
         sql = """
             SELECT *
             FROM playlists
-            WHERE name is ?
+            WHERE name = ?
         """
 
         row = CURSOR.execute(sql, (name,)).fetchone()
+        return Playlist.instance_from_db(row) if row else None
+    
+    @classmethod 
+    def find_by_id(cls, id):
+        """Return a Playlist object corresponding to the first table row matching given id"""
+        try:
+            # Ensure the id is an integer
+            id = int(id)  # Convert id to an integer if it's not already
+        except ValueError:
+            print(f"Error: Invalid id '{id}'")
+            return None
+        
+        print(f"Looking for playlist with ID: {id}") # debugging to verify id
+        
+        sql = """
+            SELECT *
+            FROM playlists
+            WHERE id = ?
+        """
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        print(f"Query result: {row}") # debugging
         return Playlist.instance_from_db(row) if row else None
 
     # Instance methods
@@ -91,7 +118,7 @@ class Playlist:
             INSERT INTO playlists (name, description)
             VALUES (?, ?)
         """
-        CURSOR.execute(sql)
+        CURSOR.execute(sql,(self.name, self.description))
         CONN.commit()
         #Update object id attribute using primary key value of the new row.
         self.id = CURSOR.lastrowid
@@ -124,7 +151,7 @@ class Playlist:
         self.id = None
 
     @classmethod
-    def get_all():
+    def get_all(cls):
         """Return a list containing a Playlist object per row in the table"""
         sql = """
             SELECT *
@@ -144,7 +171,7 @@ class Playlist:
         """
         CURSOR.execute(sql,(self.id,))
         rows = CURSOR.fetchall()
-        return [Playlist.instance_from_db(row) for row in rows]
+        return [Song.instance_from_db(row) for row in rows]
 
     #@classmethod
     #def add_song():
