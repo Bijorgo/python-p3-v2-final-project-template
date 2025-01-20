@@ -29,7 +29,8 @@ class Junction:
         CURSOR.execute(sql)
         CONN.commit()
 
-    def add_song_to_playlist(self, playlist_id, song_id):
+    @classmethod
+    def add_song_to_playlist(cls, playlist_id, song_id):
         """Add a song to a playlist in junctions table"""
         sql = """
             SELECT 1
@@ -48,6 +49,7 @@ class Junction:
         else:
             print("Song already exists in playlist")
 
+    @classmethod
     def remove_song_from_playlist(self, playlist_id, song_id):
         """Delete a song from a playlist in junctions table"""
         sql = """
@@ -58,6 +60,7 @@ class Junction:
         CURSOR.execute(sql,(playlist_id, song_id,))
         CONN.commit()
 
+    @classmethod
     def view_songs_in_playlist(self, playlist_id):
         """Retrieves all songs in a specific playlist by joining the Junction and Songs tables"""
         # Shuffle function would go here
@@ -79,6 +82,7 @@ class Junction:
         # For advanced function(calculate duration), leave for later
         #pass
 
+    @classmethod
     def find_by_playlist_id(self, playlist_id):
         """Retrieves all songs in a playlist by playlist id"""
         # not sure about which class this should go in

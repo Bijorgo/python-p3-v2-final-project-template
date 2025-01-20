@@ -15,6 +15,10 @@ from song_helpers import (
     find_song_by_title
 )
 
+from junction_helpers import (
+    adding_song_to_playlist
+)
+
 
 def main():
     while True:
@@ -39,7 +43,7 @@ def main():
         elif choice == "8":
             find_song_by_title()
         elif choice == "9":
-            pass
+            adding_song_to_playlist()
         else:
             print("Invalid choice")
 
