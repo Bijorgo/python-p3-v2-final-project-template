@@ -10,6 +10,10 @@ class Song:
         self._genre = genre
         self._duration = duration
 
+    def __repr__(self):
+        """Return a string representation of the playlist"""
+        return f"Song(id={self.id}, title = {self.title}, artist = {self.artist}, genre = {self.genre}, diration = {self.duration})"
+
     # All attribute getters
     @property
     def title(self):
@@ -81,6 +85,7 @@ class Song:
         """Inititalize a new Song instance and save to database""" 
         song = cls(title, artist, genre, duration)
         song.save()
+        return song
 
     @classmethod
     def instance_from_db(cls, row):
@@ -131,7 +136,7 @@ class Song:
             return None
         
         print(f"Looking for song with ID: {id}") # debugging to verify id
-        
+
         sql = """
             Select *
             FROM songs
@@ -149,7 +154,7 @@ class Song:
     def save(self):
         """Insert a new row with the values of the current instance into songs."""
         sql = """
-            INSERT INTO songs
+            INSERT INTO songs(title, artist, genre, duration)
             VALUES (?, ?, ?, ?)
         """
         CURSOR.execute(sql, (self.title, self.artist, self.genre, self.duration))
