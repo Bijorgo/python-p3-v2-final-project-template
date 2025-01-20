@@ -10,7 +10,7 @@ class Junction:
         """Creates junctions table if it doesn't already exist"""
         sql = """
             CREATE TABLE IF NOT EXISTS junctions(
-                id PRIMARY KEY,
+                id INT PRIMARY KEY AUTOINCREMENT,
                 playlist_id INT,
                 song_id INT,
                 FOREIGN KEY (playlist_id) REFERENCES playlists(id),
@@ -40,12 +40,9 @@ class Junction:
         """
         result = CURSOR.execute(sql,(playlist_id, song_id,)).fetchone()
         if not result:
-            sql_insert = """
-                INSERT INTO junctions (playlist_id, song_id)
-                VALUES (?, ?)
-            """
-            CURSOR.execute(sql_insert, (playlist_id, song_id))
-            CONN.commit()
+            junction = cls(playlist_id, song_id)
+            junction.save()
+            return junction
         else:
             print("Song already exists in playlist")
 
@@ -94,3 +91,12 @@ class Junction:
         """
         songs = CURSOR.execute(sql,(playlist_id,)).fetchall()
         return songs
+    
+    def save(self):
+        """Insert a new row with the values of the current instance into junctions table"""
+        sql = """
+            INSERT INTO junctions(playlist_id, song_id)
+            VALUES (?, ?)
+        """
+        CURSOR.execute(sql, (self.playlist, self.song))
+        CONN.commit()

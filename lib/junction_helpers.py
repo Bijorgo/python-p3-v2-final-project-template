@@ -24,3 +24,7 @@ def adding_song_to_playlist():
                 print(f"Error adding {song_found} to {playlist_found}.", exc)
     else:
         print(f"Sorry, playlist `{playlist_entered}` or `{song_found} not found.")
+
+def clear_all_relationships():
+     Junction.drop_table()
+     print(f"All playlists cleared.")

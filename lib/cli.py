@@ -16,7 +16,8 @@ from song_helpers import (
 )
 
 from junction_helpers import (
-    adding_song_to_playlist
+    adding_song_to_playlist,
+    clear_all_relationships    
 )
 
 
@@ -44,6 +45,8 @@ def main():
             find_song_by_title()
         elif choice == "9":
             adding_song_to_playlist()
+        elif choice == "10":
+            clear_all_relationships()
         else:
             print("Invalid choice")
 
@@ -60,6 +63,7 @@ def menu():
     print("7. Display All Songs")
     print("8. Find A Song")
     print("9. Add Song to Playlist")
+    print("10. Clear All Playlists")
 
 
 if __name__ == "__main__":
