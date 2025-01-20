@@ -14,6 +14,7 @@ def create_new_playlist():
         print("Error creating playlist: ", exc)
 
 def delete_playlist():
+    Playlist.create_table()
     id = input("Enter playlist id: ")
     playlist = Playlist.find_by_id(id)
     if playlist:
@@ -23,6 +24,7 @@ def delete_playlist():
         print(f"Playlist {playlist} not found.")
 
 def display_all_playlists():
+    Playlist.create_table()
     playlists = Playlist.get_all()
     if playlists:
         for playlist in playlists:
@@ -31,12 +33,13 @@ def display_all_playlists():
         print("No playlists to display.")
 
 def find_playlist_by_name():
+    Playlist.create_table()
     name = input("Enter playlist name: ")
     playlist = Playlist.find_by_name(name)
     if playlist:
         print(playlist)
     else:
-        print(f"Sorry, {playlist} not found.")
+        print(f"Sorry, playlist {playlist} not found.")
 
 
 def exit_program():
