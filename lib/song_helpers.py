@@ -4,13 +4,38 @@ from models.song import Song
 from models.junction import Junction
 
 def create_new_song():
-    pass
+    Song.create_table()
+    title = input("Ener song title: ")
+    artist = input("Enter artist name: ")
+    genre = input("Enter genre: ")
+    duration = input("Enter duration: ")
+    try:
+        song = Song.create(title, artist, genre, duration)
+        print(f"Sucess! {song} created.")
+    except Exception as exc:
+        print("Error creating song: ", exc)
 
 def delete_song():
-    pass
+    id = input("Enter song id: ")
+    song = Song.find_by_id(id)
+    if song:
+        song.delete()
+        print(f"Song {song} deleted.")
+    else:
+        print(f"Song {song} not found")
 
 def display_all_songs():
-    pass
+    songs = Song.get_all()
+    if songs:
+        for song in songs:
+            print(song)
+    else:
+        print("No songs to display.")
 
 def find_song_by_title():
-    pass
+    song_entered = input("Enter song title: ")
+    song = Song.find_by_title(song_entered)
+    if song:
+        print(song)
+    else:
+        print(f"Sorry, {song} not found")

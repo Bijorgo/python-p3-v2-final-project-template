@@ -36,7 +36,7 @@ def find_playlist_by_name():
     if playlist:
         print(playlist)
     else:
-        print(f"Playlist {playlist} not found.")
+        print(f"Sorry, {playlist} not found.")
 
 
 def exit_program():

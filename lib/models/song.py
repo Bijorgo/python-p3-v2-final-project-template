@@ -119,6 +119,27 @@ class Song:
 
         row = CURSOR.execute(sql, (title,)).fetchone()
         return Song.instance_from_db(row) if row else None
+    
+    @classmethod
+    def find_by_id(cls, id):
+        """Return a Song object corresonding to an id"""
+        try:
+            # Ensure the id is an integer
+            id = int(id)  # Convert id to an integer if it's not already
+        except ValueError:
+            print(f"Error: Invalid id '{id}'")
+            return None
+        
+        print(f"Looking for song with ID: {id}") # debugging to verify id
+        
+        sql = """
+            Select *
+            FROM songs
+            WHERE id = ?
+        """
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        print(f"Query result: {row}") # debugging
+        return Song.instance_from_db(row) if row else None
 
     #@classmethod
     #def find_by_artist(cls, artist):
