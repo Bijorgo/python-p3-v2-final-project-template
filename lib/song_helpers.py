@@ -25,7 +25,6 @@ def delete_song():
     song, given_title, given_artist = find_song()
     if song:
         song.delete()
-        print(f"Sucess! Song {song.title} deleted.")
     else:
         print(f"Song {given_title} by {given_artist} not found")
 
@@ -48,3 +47,10 @@ def find_song_by_title():
 
 def update_song_info():
     pass
+
+def delete_all_songs():
+    confirm = input("Are you sure you want to delete all songs? y/n ").strip().lower()
+    if confirm == "y":
+        Song.drop_table()
+    else:
+        print("Songs were not deleted.")

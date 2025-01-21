@@ -13,7 +13,8 @@ from song_helpers import (
     delete_song,
     display_all_songs,
     find_song_by_title,
-    update_song_info
+    update_song_info,
+    delete_all_songs
 )
 
 from junction_helpers import (
@@ -55,6 +56,10 @@ def main():
         elif choice == "12":
             delete_song()
         elif choice == "13":
+            delete_all_songs()
+        elif choice == "14":
+            pass
+        elif choice == "15":
             clear_all_relationships()
         else:
             print("Invalid choice")
@@ -86,7 +91,9 @@ def menu():
     #print("~~~~~~~~~~~~~~~~~~~~~")
     print("11. Delete Playlist")
     print("12. Delete A Song")
-    print("13. Clear All Songs In All Playlists")
+    print("13. Delete All Songs")
+    print("14. Delete All Playlists")
+    print("15. Clear All Songs In All Playlists")
     print("~~~~~~~~~~~~~~~~~~~~~")
     print("EXIT to Exit the program")
 

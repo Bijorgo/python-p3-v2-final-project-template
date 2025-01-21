@@ -79,6 +79,7 @@ class Song:
         """
         CURSOR.execute(sql)
         CONN.commit()
+        print("All songs have been deleted")
            
     @classmethod   
     def create(cls, title, artist, genre, duration):
@@ -192,3 +193,4 @@ class Song:
         del type(self).all_songs[self.id]
         # Set id to None
         self.id = None
+        print(f"Sucess! Song {self.title} deleted.")
