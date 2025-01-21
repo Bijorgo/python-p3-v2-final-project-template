@@ -60,7 +60,7 @@ Once the application is running, you will be presented with a menu. You can inte
 EXIT to Exit the program
 ```
 
-Available Options:
+### Available Options:
 Create Playlist or Song:
 
 Create a new playlist or song by providing necessary details (e.g., title, artist, genre).
@@ -92,7 +92,8 @@ Select option 6, then option 1 to delete a specific playlist.
 Master Reset:
 
 Select option 6, then option 6 to perform a master reset, clearing all tables and relationships.
-Directory Structure
+
+## Directory Structure
 The project follows the structure below:
 
 playlist-manager/
@@ -115,8 +116,8 @@ playlist-manager/
 
 
 
-No License
+## No License
 This project is for educational purposes and does not have a formal license.
 
-Note: This is a school project and is not accepting contributions at this time.
+### Note: This is a school project and is not accepting contributions at this time.
 
