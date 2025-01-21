@@ -42,3 +42,10 @@ def find_playlist_by_name():
 
 def update_playlist_info():
     pass
+
+def delete_all_playlists():
+    confirm = input("Are you sure you want to delete all playlists? y/n ").strip().lower()
+    if confirm == "y":
+        Playlist.drop_table()
+    else:
+        print("Playlists were not deleted.")

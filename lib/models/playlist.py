@@ -55,6 +55,7 @@ class Playlist:
         """
         CURSOR.execute(sql)
         CONN.commit()
+        print("All playlists have been deleted.")
 
     @classmethod
     def create(cls, name: str, description: str):

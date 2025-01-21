@@ -5,7 +5,8 @@ from playlist_helpers import (
     delete_playlist,
     display_all_playlists,
     find_playlist_by_name,
-    update_playlist_info
+    update_playlist_info,
+    delete_all_playlists
 )
 
 from song_helpers import (
@@ -58,7 +59,7 @@ def main():
         elif choice == "13":
             delete_all_songs()
         elif choice == "14":
-            pass
+            delete_all_playlists()
         elif choice == "15":
             clear_all_relationships()
         else:
