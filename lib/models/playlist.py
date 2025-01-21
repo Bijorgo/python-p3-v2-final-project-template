@@ -60,6 +60,11 @@ class Playlist:
     @classmethod
     def create(cls, name: str, description: str):
         """Initialize a new Playlist instance and save to the database"""
+        # Verify data types
+        if not isinstance(name, str):
+            raise TypeError(f"Name must be a string.")
+        if not isinstance(description, str):
+            raise TypeError(f"Description must be a string.")
         # Check if playlist with that name exists
         sql = """
             SELECT 1
@@ -67,8 +72,8 @@ class Playlist:
             WHERE name = ?
         """
         result = CURSOR.execute(sql, (name,)).fetchone()
+        # Create new Playlist instance if not already existing
         if not result:
-            # If no result, create a new instance
             playlist = cls(name, description)
             playlist.save()
             print(f"Success! {playlist} created.")

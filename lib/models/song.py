@@ -82,8 +82,18 @@ class Song:
         print("All songs have been deleted")
            
     @classmethod   
-    def create(cls, title, artist, genre, duration):
+    def create(cls, title: str, artist: str, genre: str, duration: float):
         """Inititalize a new Song instance and save to database""" 
+        # Verify data types
+        if not isinstance(title, str):
+            raise TypeError(f"Title must be a string.")
+        if not isinstance(artist, str):
+            raise TypeError(f"Artist must be a string.")
+        if not isinstance(genre, str):
+            raise TypeError(f"Artist must be a string.")
+        if not isinstance(duration, float):
+            raise TypeError(f"Duration must be a decimal number.")
+        # Check if song with that title and artist combo exist
         sql = """
             SELECT 1 
             FROM songs
@@ -91,6 +101,7 @@ class Song:
             AND artist = ?
         """
         result = CURSOR.execute(sql, (title, artist,)).fetchone()
+        # Create new Song instance if not already existing 
         if not result: 
             song = cls(title, artist, genre, duration)
             song.save()
