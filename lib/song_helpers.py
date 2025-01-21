@@ -4,7 +4,7 @@ from models.song import Song
 
 def create_new_song():
     Song.create_table() # Check if table exist, if no: create table
-    title = input("Ener song title: ").strip().lower() # All inputs will be stored lowercased, no trailing whitespaces
+    title = input("Enter song title: ").strip().lower() # All inputs will be stored lowercased, no trailing whitespaces
     artist = input("Enter artist name: ").strip().lower()
     genre = input("Enter genre: ").strip().lower()
     duration = input("Enter duration: ").strip().lower()
