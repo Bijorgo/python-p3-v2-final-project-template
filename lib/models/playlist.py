@@ -167,6 +167,7 @@ class Playlist:
         del type(self).all_playlists[self.id]
         # Set id to None
         self.id = None
+        print(f"Playlist deleted.")
 
     @classmethod
     def get_all(cls):
@@ -190,13 +191,3 @@ class Playlist:
         CURSOR.execute(sql,(self.id,))
         rows = CURSOR.fetchall()
         return [Song.instance_from_db(row) for row in rows]
-
-    #@classmethod
-    #def add_song():
-        #from song import Song
-        #pass
-
-    #@classmethod
-    #def remove_song():
-        #from song import Song
-        #pass
