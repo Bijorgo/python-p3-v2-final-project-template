@@ -78,6 +78,7 @@ class Junction:
         if songs:
             return songs
         else:
+            print("No songs in playlist.")
             return None
 
     @classmethod
