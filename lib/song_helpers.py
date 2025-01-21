@@ -38,7 +38,7 @@ def display_all_songs():
         print("No songs to display.")
 
 def find_song_by_title():
-    song, given_title = find_song()
+    song, given_title, given_artist = find_song()
     if song:
         print(f"Song found!")
         print(f"Title: {song.title}, Artist: {song.artist}, Genre: {song.genre}, Duration: {song.duration}")

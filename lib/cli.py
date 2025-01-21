@@ -1,32 +1,14 @@
 #!/usr/bin/env python3
 
-from playlist_helpers import (
-    create_new_playlist,
-    delete_playlist,
-    display_all_playlists,
-    find_playlist_by_name,
-    update_playlist_info,
-    delete_all_playlists
+from general_helpers import(
+    create_new,
+    update_info,
+    look_up,
+    display_all,
+    delete,
+    playlist_contents,
+    exit_program
 )
-
-from song_helpers import (
-    create_new_song,
-    delete_song,
-    display_all_songs,
-    find_song_by_title,
-    update_song_info,
-    delete_all_songs
-)
-
-from junction_helpers import (
-    adding_song_to_playlist,
-    clear_all_relationships,
-    view_songs_in_playlist,
-    exit_program,
-    remove_song_from_playlist,
-    master_reset
-)
-
 
 def main():
     while True:
@@ -35,74 +17,31 @@ def main():
         if choice == "EXIT":
             exit_program()
         elif choice == "1":
-            create_new_playlist()
+            create_new()
         elif choice == "2":
-            update_playlist_info()
+            update_info()
         elif choice == "3":
-            display_all_playlists() 
+            look_up()
         elif choice == "4":
-            find_playlist_by_name()
+            display_all()
         elif choice == "5":
-            adding_song_to_playlist()
+            playlist_contents()
         elif choice == "6":
-            remove_song_from_playlist()
-        elif choice == "7":
-            view_songs_in_playlist()   
-        elif choice == "8":
-            create_new_song()
-        elif choice == "9":
-            update_song_info()     
-        elif choice == "10":
-            display_all_songs()
-        elif choice == "11":
-            find_song_by_title()               
-        elif choice == "12":
-            delete_playlist()
-        elif choice == "13":
-            delete_song()
-        elif choice == "14":
-            delete_all_songs()
-        elif choice == "15":
-            delete_all_playlists()
-        elif choice == "16":
-            clear_all_relationships()
-        elif choice == "MASTER RESET":
-            master_reset()
+            delete()
         else:
-            print("Invalid choice")
-        
-        
-        
-        
-        
-        
+            print("Invalid choice")   
 
 
 def menu():
-    print("Please select an option:")
-    print("~~~~PLAYLIST OPTIONS:~~~~")
-    #print("~~~~~~~~~~~~~~~~~~~~~")
-    print("1. Create New Playlist")
-    print("2. Update playlist")
-    print("3. Display all Playlists")
-    print("4. Find A Playlist")
-    print("5. Add Song to Playlist")
-    print("6. Remove Song From Playlist")
-    print("7. View Songs In Playlist")
-    print("~~~~SONG OPTIONS:~~~~")
-    #print("~~~~~~~~~~~~~~~~~~~~~")
-    print("8. Create A Song")
-    print("9. Update song")
-    print("10. Display All Songs")
-    print("11. Find A Song")
-    print("~~~~DELETE OPTIONS~~~~")
-    #print("~~~~~~~~~~~~~~~~~~~~~")
-    print("12. Delete Playlist")
-    print("13. Delete A Song")
-    print("14. Delete All Songs")
-    print("15. Delete All Playlists")
-    print("16. Clear All Songs In All Playlists")
-    print("MASTER RESET")
+    print("~~~~~~~~~~~~~~~~~~~~~")
+    print("~~Please select an option: ~~")
+    print("~~~~~~~~~~~~~~~~~~~~~")
+    print("1. Create Playlist or Song")
+    print("2. Update Playlist Or Song")
+    print("3. Look Up Playlist Or Song")
+    print("4. Display All Playlists or Songs")
+    print("5. Playlist Contents") 
+    print("6. Delete Options")
     print("~~~~~~~~~~~~~~~~~~~~~")
     print("EXIT to Exit the program")
 

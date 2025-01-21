@@ -73,7 +73,3 @@ def master_reset():
         print("All tables dropped.")
     else:
         print("No changes made.")
-
-def exit_program():
-    print("Goodbye!")
-    exit()
