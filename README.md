@@ -58,6 +58,7 @@ Once the application is running, you will be presented with a menu. You can inte
 6. Delete Options
 ~~~~~~~~~~~~~~~~~~~~~
 EXIT to Exit the program
+```
 
 Available Options:
 Create Playlist or Song:
