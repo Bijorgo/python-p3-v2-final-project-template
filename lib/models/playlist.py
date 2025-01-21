@@ -99,12 +99,13 @@ class Playlist:
     @classmethod 
     def find_by_name(cls, name: str):
         """Return a Playlist object corresponding to the first table row matching given name"""
+        if not isinstance(name, str):
+            raise TypeError("Playlist name must be a string.") 
         sql = """
             SELECT *
             FROM playlists
             WHERE name = ?
         """
-
         row = CURSOR.execute(sql, (name,)).fetchone()
         print(f"Looking for playlist: {name}") # debugging
         print(f"Query result: {row}") # debugging

@@ -63,9 +63,13 @@ def update_playlist_info():
         # Update the chosen field
         if choice == '1':
             new_name = input("Enter the new name: ").strip().lower()
+            if not isinstance(new_name, str):
+                raise TypeError("Playlist name must be a string.") 
             playlist.name = new_name
         elif choice == '2':
             new_description = input("Enter the new description: ").strip().lower()
+            if not isinstance(new_description, str):
+                raise TypeError("Playlist description must be a string.") 
             playlist.description = new_description
         else:
             print("Invalid choice. No changes made.")

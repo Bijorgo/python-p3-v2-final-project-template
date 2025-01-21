@@ -140,6 +140,10 @@ class Song:
     @classmethod
     def find_one_song(cls, title, artist):
         """Return a Song object correspnding to the first row matching the given title"""
+        if not isinstance(title, str):
+            raise TypeError(f"Title must be a string.")
+        if not isinstance(artist, str):
+            raise TypeError(f"Artist must be a string.")
         sql = """
             SELECT *
             FROM songs

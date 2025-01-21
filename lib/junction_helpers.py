@@ -7,7 +7,6 @@ def find_relation():
     Junction.create_table() # Check if table exist, if no: create table
     Playlist.create_table()
     Song.create_table()
-
     # Input playlist
     playlist_entered = input("Enter playlist name: ")
     playlist_found = Playlist.find_by_name(playlist_entered)
