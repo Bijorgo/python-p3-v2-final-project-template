@@ -45,6 +45,13 @@ def find_song_by_title():
     else:
         print(f"Sorry, {given_title} not found")
 
+def delete_all_songs():
+    confirm = input("Are you sure you want to delete all songs? y/n ").strip().lower()
+    if confirm == "y":
+        Song.drop_table()
+    else:
+        print("Songs were not deleted.")
+
 def update_song_info():
     # Find song based on input
     song, given_title, given_artist = find_song()
@@ -77,16 +84,9 @@ def update_song_info():
         
         # Save the updated song record
         try:
-            song.save()
+            song.update()
             print(f"Song updated successfully: Title: {song.title}, Artist: {song.artist}, Genre: {song.genre}, Duration: {song.duration}")
         except Exception as exc:
             print("Error updating song: ", exc)
     else:
         print(f"Song {given_title} by {given_artist} not found.")
-
-def delete_all_songs():
-    confirm = input("Are you sure you want to delete all songs? y/n ").strip().lower()
-    if confirm == "y":
-        Song.drop_table()
-    else:
-        print("Songs were not deleted.")

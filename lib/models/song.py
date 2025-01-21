@@ -185,6 +185,18 @@ class Song:
         # Save the bject to all_songs dictionary using the row's primary key as the dictionary key
         Song.all_songs[self.id] = self
 
+    def update(self):
+        """Update table row corresponding to current Song instance"""
+        sql = """
+            UPDATE songs
+            SET title = ?, artist = ?, genre = ?, duration = ?
+            WHERE id = ?
+        """
+        CURSOR.execute(sql, (self.title, self.artist, self.genre, self.duration, self.id,))
+        CONN.commit()
+        type(self).all_songs[self.id] = self
+        print(f"Song updated successfully: Title: {self.title}, Artist: {self.artist}, Genre: {self.genre}, Duration: {self.duration}")
+
     def delete(self):
         """Delete the row corresponding to the current Song instance,
         delete dictionary entry, and ressaign id attribute.""" 

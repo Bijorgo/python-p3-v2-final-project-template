@@ -21,7 +21,7 @@ def find_relation():
 
 def adding_song_to_playlist():
     song_found, playlist_found, song_entered, playlist_entered,  = find_relation()
-    print(f"Query result: {song_found.title}") #debugging
+    #print(f"Query result: {song_found}") #debugging
     
     # Try adding song playlist relationship
     if playlist_found and song_found:

@@ -152,6 +152,8 @@ class Playlist:
         """
         CURSOR.execute(sql, (self.name, self.description, self.id,))
         CONN.commit()
+        type(self).all_playlists[self.id] = self
+        print(f"Playlist updated successfully: Name: {self.name}, Description: {self.description}")
 
     def delete(self):
         """Delete the table row corresponding to the current Playlist instance."""

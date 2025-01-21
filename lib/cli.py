@@ -37,7 +37,7 @@ def main():
         elif choice == "1":
             create_new_playlist()
         elif choice == "2":
-            update_playlist_info
+            update_playlist_info()
         elif choice == "3":
             display_all_playlists() 
         elif choice == "4":

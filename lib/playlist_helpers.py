@@ -73,8 +73,7 @@ def update_playlist_info():
         
         # Save the updated playlist record
         try:
-            playlist.save()
-            print(f"Playlist updated successfully: Name: {playlist.name}, Description: {playlist.description}")
+            playlist.update()
         except Exception as exc:
             print("Error updating playlist: ", exc)
     else:
