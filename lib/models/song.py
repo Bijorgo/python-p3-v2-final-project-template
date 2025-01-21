@@ -138,7 +138,12 @@ class Song:
         row = CURSOR.execute(sql, (title, artist,)).fetchone()
         print(f"Looking for song titled: {title}") # debugging
         print(f"By artist: {artist}") # debugging
-        return Song.instance_from_db(row) if row else None
+        print(f"Query result: {row}") # debugging
+        if row:
+           return Song.instance_from_db(row) 
+        else:
+            print("Song not found.")
+            return None
     
     @classmethod
     def find_by_id(cls, id):

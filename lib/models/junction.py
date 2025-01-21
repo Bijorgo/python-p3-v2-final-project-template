@@ -32,6 +32,7 @@ class Junction:
         """
         CURSOR.execute(sql)
         CONN.commit()
+        print(f"All playlists cleared.")
 
     @classmethod
     def add_song_to_playlist(cls, playlist_id, song_id):
@@ -46,6 +47,7 @@ class Junction:
         if not result:
             junction = cls(playlist_id, song_id)
             junction.save()
+            print(f"Sucess! Song added to playlist.")
             return junction
         else:
             print("Song already exists in playlist")
@@ -60,6 +62,7 @@ class Junction:
         """
         CURSOR.execute(sql,(playlist_id, song_id,))
         CONN.commit()
+        print(f"Sucess! Song removed from playlist.")
 
     @classmethod
     def view_songs_in_playlist(self, playlist_id):

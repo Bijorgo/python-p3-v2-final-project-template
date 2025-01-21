@@ -22,7 +22,8 @@ from junction_helpers import (
     adding_song_to_playlist,
     clear_all_relationships,
     view_songs_in_playlist,
-    exit_program
+    exit_program,
+    remove_song_from_playlist
 )
 
 
@@ -43,24 +44,26 @@ def main():
         elif choice == "5":
             adding_song_to_playlist()
         elif choice == "6":
-            view_songs_in_playlist()   
+            remove_song_from_playlist()
         elif choice == "7":
-            create_new_song()
+            view_songs_in_playlist()   
         elif choice == "8":
-            update_song_info()     
+            create_new_song()
         elif choice == "9":
-            display_all_songs()
+            update_song_info()     
         elif choice == "10":
-            find_song_by_title()               
+            display_all_songs()
         elif choice == "11":
-            delete_playlist()
+            find_song_by_title()               
         elif choice == "12":
-            delete_song()
+            delete_playlist()
         elif choice == "13":
-            delete_all_songs()
+            delete_song()
         elif choice == "14":
-            delete_all_playlists()
+            delete_all_songs()
         elif choice == "15":
+            delete_all_playlists()
+        elif choice == "16":
             clear_all_relationships()
         else:
             print("Invalid choice")
@@ -81,20 +84,21 @@ def menu():
     print("3. Display all Playlists")
     print("4. Find A Playlist")
     print("5. Add Song to Playlist")
-    print("6. View Songs In Playlist")
+    print("6. Remove Song From Playlist")
+    print("7. View Songs In Playlist")
     print("~~~~SONG OPTIONS:~~~~")
     #print("~~~~~~~~~~~~~~~~~~~~~")
-    print("7. Create A Song")
-    print("8. Update song")
-    print("9. Display All Songs")
-    print("10. Find A Song")
+    print("8. Create A Song")
+    print("9. Update song")
+    print("10. Display All Songs")
+    print("11. Find A Song")
     print("~~~~DELETE OPTIONS~~~~")
     #print("~~~~~~~~~~~~~~~~~~~~~")
-    print("11. Delete Playlist")
-    print("12. Delete A Song")
-    print("13. Delete All Songs")
-    print("14. Delete All Playlists")
-    print("15. Clear All Songs In All Playlists")
+    print("12. Delete Playlist")
+    print("13. Delete A Song")
+    print("14. Delete All Songs")
+    print("15. Delete All Playlists")
+    print("16. Clear All Songs In All Playlists")
     print("~~~~~~~~~~~~~~~~~~~~~")
     print("EXIT to Exit the program")
 
