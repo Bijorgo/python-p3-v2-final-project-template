@@ -42,9 +42,9 @@ def view_songs_in_playlist():
     
     if playlist_retrieved:
         songs_in_playlist = Junction.view_songs_in_playlist(playlist_retrieved.id)
-        print("Songs in playlist: ")
+        print(f"Songs in playlist {playlist_retrieved.name}: ")
         for song in songs_in_playlist:
-            print(f"Title: {song[1]}, Artist:{song[2]}")
+            print(f"Title: {song[1]}, Artist: {song[2]}")
     else:
         print("Sorry, playlist not found.")
 
