@@ -26,6 +26,9 @@ def adding_song_to_playlist():
     else:
         print(f"Sorry, playlist `{playlist_entered}` or `{song_found} not found.")
 
+def remove_song_from_playlist():
+    pass
+
 def clear_all_relationships():
     confirmation = input("Are you sure you want to clear all songs from all playlists? y/n ")
     if confirmation == "y":
@@ -35,11 +38,10 @@ def clear_all_relationships():
          print("Playlists will not be cleared.")
 
 def view_songs_in_playlist():
-    playlist_entered = int(input("Please enter playlist id: ")) # Ensure input is an integer
-    print(f"Entered: {playlist_entered}") # debugging
-    playlist_retrieved = Playlist.find_by_id(playlist_entered)
+    playlist_entered = (input("Please enter playlist name: "))
+    print(f"Looking for: {playlist_entered}") # debugging
+    playlist_retrieved = Playlist.find_by_name(playlist_entered)
     print(f"Found: {playlist_retrieved}") # debugging
-
     
     if playlist_retrieved:
         songs_in_playlist = Junction.view_songs_in_playlist(playlist_retrieved.id)

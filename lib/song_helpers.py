@@ -3,6 +3,13 @@ from models.playlist import Playlist
 from models.song import Song
 from models.junction import Junction
 
+def find_song():
+    Song.create_table()
+    given_title = input("Enter song title: ")
+    given_artist = input("Enter artist name: ")
+    song = Song.find_one_song(given_title, given_artist)
+    return song, given_title, given_artist
+
 def create_new_song():
     Song.create_table() # Check if table exist, if no: create table
     title = input("Ener song title: ")
@@ -15,10 +22,7 @@ def create_new_song():
         print("Error creating song: ", exc)
 
 def delete_song():
-    Song.create_table()
-    given_title = input("Enter song title: ")
-    given_artist = input("Enter artist name: ")
-    song = Song.find_one_song(given_title, given_artist)
+    song, given_title, given_artist = find_song()
     if song:
         song.delete()
         print(f"Sucess! Song {song.title} deleted.")
@@ -35,13 +39,12 @@ def display_all_songs():
         print("No songs to display.")
 
 def find_song_by_title():
-    Song.create_table()
-    song_entered = input("Enter song title: ")
-    song = Song.find_by_title(song_entered)
+    song, given_title = find_song()
     if song:
-        print(song)
+        print(f"Song found!")
+        print(f"Title: {song.title}, Artist: {song.artist}, Genre: {song.genre}, Duration: {song.duration}")
     else:
-        print(f"Sorry, {song} not found")
+        print(f"Sorry, {given_title} not found")
 
 def update_song_info():
     pass
