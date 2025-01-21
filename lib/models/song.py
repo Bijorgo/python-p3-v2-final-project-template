@@ -83,9 +83,20 @@ class Song:
     @classmethod   
     def create(cls, title, artist, genre, duration):
         """Inititalize a new Song instance and save to database""" 
-        song = cls(title, artist, genre, duration)
-        song.save()
-        return song
+        sql = """
+            SELECT 1 
+            FROM songs
+            WHERE title = ?
+            AND artist = ?
+        """
+        result = CURSOR.execute(sql, (title, artist,)).fetchone()
+        if not result: 
+            song = cls(title, artist, genre, duration)
+            song.save()
+            print(f"Sucess! {song.title} created.")
+            return song
+        else:
+            print("A song by that title and artist already exists.")
 
     @classmethod
     def instance_from_db(cls, row):

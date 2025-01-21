@@ -10,8 +10,7 @@ def create_new_song():
     genre = input("Enter genre: ")
     duration = input("Enter duration: ")
     try:
-        song = Song.create(title, artist, genre, duration)
-        print(f"Sucess! {song} created.")
+        Song.create(title, artist, genre, duration)
     except Exception as exc:
         print("Error creating song: ", exc)
 
