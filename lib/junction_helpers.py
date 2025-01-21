@@ -6,14 +6,15 @@ from models.junction import Junction
 def adding_song_to_playlist():
     Junction.create_table() # Check if table exist, if no: create table
     # Input playlist
-    playlist_entered = input("Enter playlist id: ")
-    playlist_found = Playlist.find_by_id(playlist_entered)
+    playlist_entered = input("Enter playlist name: ")
+    playlist_found = Playlist.find_by_name(playlist_entered)
     #print(f"Query result: {playlist_found}") #debugging
 
     # Input song
-    song_entered = input("Enter song id: ")
-    song_found = Song.find_by_id(song_entered)
-    #print(f"Query result: {song_found}") #debugging
+    song_title_entered = input("Enter song title: ")
+    song_artist_entered = input("Enter song artist: ")
+    song_found = Song.find_one_song(song_title_entered, song_artist_entered)
+    print(f"Query result: {song_found.title}") #debugging
     
     # Try adding song playlist relationship
     if playlist_found and song_found:
