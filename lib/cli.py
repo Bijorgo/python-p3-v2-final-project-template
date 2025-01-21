@@ -23,7 +23,8 @@ from junction_helpers import (
     clear_all_relationships,
     view_songs_in_playlist,
     exit_program,
-    remove_song_from_playlist
+    remove_song_from_playlist,
+    master_reset
 )
 
 
@@ -65,6 +66,8 @@ def main():
             delete_all_playlists()
         elif choice == "16":
             clear_all_relationships()
+        elif choice == "MASTER RESET":
+            master_reset()
         else:
             print("Invalid choice")
         
@@ -99,6 +102,7 @@ def menu():
     print("14. Delete All Songs")
     print("15. Delete All Playlists")
     print("16. Clear All Songs In All Playlists")
+    print("MASTER RESET")
     print("~~~~~~~~~~~~~~~~~~~~~")
     print("EXIT to Exit the program")
 

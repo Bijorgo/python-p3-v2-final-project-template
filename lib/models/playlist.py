@@ -103,7 +103,6 @@ class Playlist:
         row = CURSOR.execute(sql, (name,)).fetchone()
         print(f"Looking for playlist: {name}") # debugging
         print(f"Query result: {row}") # debugging
-         
         if row:
            return Playlist.instance_from_db(row) 
         else:

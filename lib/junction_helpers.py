@@ -65,6 +65,16 @@ def view_songs_in_playlist():
     else:
         print("Sorry, playlist not found.")
 
+def master_reset():
+    confirmation = input("Are you sure you want to delete all data tables? Please type: `MASTER RESET` : ")
+    if confirmation == "MASTER RESET":
+        Playlist.drop_table
+        Song.drop_table()
+        Junction.drop_table()
+        print("All tables dropped.")
+    else:
+        print("No changes made.")
+
 def exit_program():
     print("Goodbye!")
     exit()
