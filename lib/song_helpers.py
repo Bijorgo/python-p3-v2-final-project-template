@@ -5,17 +5,17 @@ from models.junction import Junction
 
 def find_song():
     Song.create_table()
-    given_title = input("Enter song title: ")
-    given_artist = input("Enter artist name: ")
+    given_title = input("Enter song title: ").strip().lower()
+    given_artist = input("Enter artist name: ").strip().lower()
     song = Song.find_one_song(given_title, given_artist)
     return song, given_title, given_artist
 
 def create_new_song():
     Song.create_table() # Check if table exist, if no: create table
-    title = input("Ener song title: ")
-    artist = input("Enter artist name: ")
-    genre = input("Enter genre: ")
-    duration = input("Enter duration: ")
+    title = input("Ener song title: ").strip().lower()
+    artist = input("Enter artist name: ").strip().lower()
+    genre = input("Enter genre: ").strip().lower()
+    duration = input("Enter duration: ").strip().lower()
     try:
         Song.create(title, artist, genre, duration)
     except Exception as exc:

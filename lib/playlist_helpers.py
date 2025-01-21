@@ -5,8 +5,8 @@ from models.junction import Junction
 
 def create_new_playlist():
     Playlist.create_table() # Check if table exist, if no: create table
-    name = input("Enter playlist name: ")
-    description = input("Enter playlist description: ")
+    name = input("Enter playlist name: ").strip().lower()
+    description = input("Enter playlist description: ").strip().lower()
     try:
         Playlist.create(name, description) # Create new playlist instance
     except Exception as exc:
@@ -14,7 +14,7 @@ def create_new_playlist():
 
 def delete_playlist():
     Playlist.create_table()
-    given_name = input("Enter playlist name: ")
+    given_name = input("Enter playlist name: ").strip().lower()
     playlist = Playlist.find_by_name(given_name)
     if playlist:
         playlist.delete()
@@ -33,7 +33,7 @@ def display_all_playlists():
 
 def find_playlist_by_name():
     Playlist.create_table()
-    name = input("Enter playlist name: ")
+    name = input("Enter playlist name: ").strip().lower()
     playlist = Playlist.find_by_name(name)
     if playlist:
         print(playlist)

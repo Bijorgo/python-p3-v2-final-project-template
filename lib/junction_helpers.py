@@ -38,7 +38,7 @@ def clear_all_relationships():
          print("Playlists will not be cleared.")
 
 def view_songs_in_playlist():
-    playlist_entered = (input("Please enter playlist name: "))
+    playlist_entered = input("Please enter playlist name: ").strip().lower()
     print(f"Looking for: {playlist_entered}") # debugging
     playlist_retrieved = Playlist.find_by_name(playlist_entered)
     print(f"Found: {playlist_retrieved}") # debugging
