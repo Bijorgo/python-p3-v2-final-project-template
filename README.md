@@ -96,6 +96,7 @@ Select option 6, then option 6 to perform a master reset, clearing all tables an
 ## Directory Structure
 The project follows the structure below:
 
+```
 playlist-manager/
 │
 ├── lib/
@@ -113,6 +114,7 @@ playlist-manager/
 │   ├── song_helpers.py       # Helper functions for song management
 │
 └── README.md                 # Project documentation
+```
 
 
 
