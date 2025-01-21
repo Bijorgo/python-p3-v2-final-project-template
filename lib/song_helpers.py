@@ -1,18 +1,10 @@
 # lib/song_helpers.py
-from models.playlist import Playlist
-from models.song import Song
-from models.junction import Junction
 
-def find_song():
-    Song.create_table()
-    given_title = input("Enter song title: ").strip().lower()
-    given_artist = input("Enter artist name: ").strip().lower()
-    song = Song.find_one_song(given_title, given_artist)
-    return song, given_title, given_artist
+from models.song import Song
 
 def create_new_song():
     Song.create_table() # Check if table exist, if no: create table
-    title = input("Ener song title: ").strip().lower()
+    title = input("Ener song title: ").strip().lower() # All inputs will be stored lowercased, no trailing whitespaces
     artist = input("Enter artist name: ").strip().lower()
     genre = input("Enter genre: ").strip().lower()
     duration = input("Enter duration: ").strip().lower()
@@ -20,6 +12,13 @@ def create_new_song():
         Song.create(title, artist, genre, duration)
     except Exception as exc:
         print("Error creating song: ", exc)
+
+def find_song():
+    Song.create_table() # Check if table exists, if no: create one
+    given_title = input("Enter song title: ").strip().lower()
+    given_artist = input("Enter artist name: ").strip().lower()
+    song = Song.find_one_song(given_title, given_artist)
+    return song, given_title, given_artist        
 
 def delete_song():
     song, given_title, given_artist = find_song()
@@ -46,6 +45,7 @@ def find_song_by_title():
         print(f"Sorry, {given_title} not found")
 
 def delete_all_songs():
+    # Confirm delete selection
     confirm = input("Are you sure you want to delete all songs? y/n ").strip().lower()
     if confirm == "y":
         Song.drop_table()
@@ -68,20 +68,27 @@ def update_song_info():
         # Update the chosen field
         if choice == '1':
             new_title = input("Enter the new title: ").strip().lower()
+            if not isinstance(new_title, str) or not 0 <= len(new_title):
+                raise TypeError("Song title must be a string of 1 or more characters.")
             song.title = new_title
         elif choice == '2':
             new_artist = input("Enter the new artist: ").strip().lower()
+            if not isinstance(new_artist, str) or not 0 <= len(new_artist):
+                raise TypeError("Song artist must be a string of 1 or more characters.")
             song.artist = new_artist
         elif choice == '3':
             new_genre = input("Enter the new genre: ").strip().lower()
+            if not isinstance(new_genre, str) or not 0 <= len(new_genre):
+                raise TypeError("Song genre must be a string of 1 or more characters.")
             song.genre = new_genre
         elif choice == '4':
             new_duration = input("Enter the new duration: ").strip().lower()
+            if not isinstance(new_duration, (int, float)):
+                raise TypeError("Song duration must be a decimal number.")
             song.duration = new_duration
         else:
             print("Invalid choice. No changes made.")
             return
-        
         # Save the updated song record
         try:
             song.update()

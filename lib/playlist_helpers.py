@@ -1,25 +1,22 @@
 # lib/playlist_helpers.py
 from models.playlist import Playlist
-from models.song import Song
-from models.junction import Junction
-
-def find_playlist():
-    Playlist.create_table() # Check if table exist, if no: create table
-    given_name = input("Enter playlist name: ").strip().lower()   
-    playlist = Playlist.find_by_name(given_name) 
-    return playlist, given_name
 
 def create_new_playlist():
-    Playlist.create_table()  # Check if table exist, if no: create table
-    name = input("Enter playlist name: ").strip().lower() 
+    Playlist.create_table()  
+    name = input("Enter playlist name: ").strip().lower() # All inputs will be stored lowercased, no trailing white space
     description = input("Enter playlist description: ").strip().lower()
     try:
         Playlist.create(name, description) # Create new playlist instance
     except Exception as exc:
         print("Error creating playlist: ", exc)
 
+def find_playlist():
+    Playlist.create_table() # Check if table exist, if no: create table
+    given_name = input("Enter playlist name: ").strip().lower()   
+    playlist = Playlist.find_by_name(given_name) # Find playlist based on input
+    return playlist, given_name
+
 def delete_playlist():
-    Playlist.create_table()
     playlist, given_name = find_playlist()
     if playlist:
         playlist.delete()
@@ -27,7 +24,7 @@ def delete_playlist():
         print(f"Playlist {given_name} not found.")
 
 def display_all_playlists():
-    Playlist.create_table()
+    Playlist.create_table() 
     playlists = Playlist.get_all()
     if playlists:
         for playlist in playlists:
@@ -43,6 +40,7 @@ def find_playlist_by_name():
         print(f"Sorry, playlist {given_name} not found.")
 
 def delete_all_playlists():
+    # Confirm delete selection
     confirm = input("Are you sure you want to delete all playlists? y/n ").strip().lower()
     if confirm == "y":
         Playlist.drop_table()
@@ -50,7 +48,6 @@ def delete_all_playlists():
         print("Playlists were not deleted.")
 
 def update_playlist_info():
-    # Find playlist based on input
     playlist, given_name = find_playlist()
     # If playlist is found, choose how to update
     if playlist:
@@ -63,18 +60,18 @@ def update_playlist_info():
         # Update the chosen field
         if choice == '1':
             new_name = input("Enter the new name: ").strip().lower()
-            if not isinstance(new_name, str):
-                raise TypeError("Playlist name must be a string.") 
+            # Data type validation
+            if not isinstance(new_name, str) or not 0 <= len(new_name):
+                raise TypeError("Playlist name must be a string of 1 or more characters.") 
             playlist.name = new_name
         elif choice == '2':
             new_description = input("Enter the new description: ").strip().lower()
-            if not isinstance(new_description, str):
-                raise TypeError("Playlist description must be a string.") 
+            if not isinstance(new_description, str) or not ( 0 < len(new_description) <= 50):
+                raise TypeError("Playlist description must be a string between 0 and 50 characters") 
             playlist.description = new_description
         else:
             print("Invalid choice. No changes made.")
             return
-        
         # Save the updated playlist record
         try:
             playlist.update()

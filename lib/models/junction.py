@@ -1,13 +1,9 @@
 from models.__init__ import CURSOR, CONN
 
-
 class Junction:
     def __init__(self, playlist, song):
         self.playlist = playlist
         self.song = song
-    
-    #def __repr__(self):
-    #    """Return a string representation"""
 
     @classmethod
     def create_table(cls):
@@ -80,19 +76,6 @@ class Junction:
         else:
             print("No songs in playlist.")
             return None
-
-    @classmethod
-    def find_by_playlist_id(self, playlist_id):
-        """Retrieves all songs in a playlist by playlist id"""
-        # not sure about which class this should go in
-        sql = """
-            SELECT songs.id, songs.title
-            FROM songs
-            JOIN junctions ON songs.id = junctions.song_id
-            WHERE junctions.playlist_id = ?
-        """
-        songs = CURSOR.execute(sql,(playlist_id,)).fetchall()
-        return songs
     
     def save(self):
         """Insert a new row with the values of the current instance into junctions table"""

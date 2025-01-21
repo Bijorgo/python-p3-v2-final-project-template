@@ -34,25 +34,25 @@ class Song:
     # All attribute setters
     @title.setter
     def title(self, title):
-        if not isinstance(title, str) or len(title) == 0:
+        if not isinstance(title, str) or len(title) == 0: # Validation data type, length
             raise ValueError("Title must be a string of one or more characters")
         self._title = title
 
     @artist.setter
     def artist(self, artist):
-        if not isinstance(artist, str) or len(artist) == 0:
+        if not isinstance(artist, str) or len(artist) == 0: # Validation data type, length
             raise ValueError("Artist must be a string one or more characters")
         self._artist = artist
         
     @genre.setter
     def genre(self, genre):
-        if not isinstance(genre, str) or len(genre) == 0:
+        if not isinstance(genre, str) or len(genre) == 0: # Validation data type, length
             raise ValueError("Genre must be a string one or more characters")
         self._genre = genre
         
     @duration.setter
     def duration(self, duration):
-        if not isinstance(duration, (float, int)):
+        if not isinstance(duration, (float, int)): # Validation data type
             raise ValueError("Duration must be a decimal number")
         self._duration = duration
         
@@ -79,6 +79,7 @@ class Song:
         """
         CURSOR.execute(sql)
         CONN.commit()
+        Song.all_songs.clear() # clear dictionary
         print("All songs have been deleted")
            
     @classmethod   
@@ -124,17 +125,13 @@ class Song:
             SELECT *
             FROM songs
         """
-
         rows = CURSOR.execute(sql).fetchall()
+        # Return as a list
         return [Song.instance_from_db(row) for row in rows]
 
     @classmethod
     def find_one_song(cls, title, artist):
         """Return a Song object correspnding to the first row matching the given title"""
-        if not isinstance(title, str):
-            raise TypeError(f"Title must be a string.")
-        if not isinstance(artist, str):
-            raise TypeError(f"Artist must be a string.")
         sql = """
             SELECT *
             FROM songs
@@ -142,39 +139,14 @@ class Song:
             AND artist = ?
         """
         row = CURSOR.execute(sql, (title, artist,)).fetchone()
-        print(f"Looking for song titled: {title}") # debugging
-        print(f"By artist: {artist}") # debugging
-        print(f"Query result: {row}") # debugging
+        #print(f"Looking for song titled: {title}") # debugging
+        #print(f"By artist: {artist}") # debugging
+        #print(f"Query result: {row}") # debugging
         if row:
            return Song.instance_from_db(row) 
         else:
             print("Song not found.")
             return None
-    
-    @classmethod
-    def find_by_id(cls, id):
-        """Return a Song object corresonding to an id"""
-        try:
-            # Ensure the id is an integer
-            id = int(id)  # Convert id to an integer if it's not already
-        except ValueError:
-            print(f"Error: Invalid id '{id}'")
-            return None
-        
-        print(f"Looking for song with ID: {id}") # debugging to verify id
-
-        sql = """
-            Select *
-            FROM songs
-            WHERE id = ?
-        """
-        row = CURSOR.execute(sql, (id,)).fetchone()
-        print(f"Query result: {row}") # debugging
-        return Song.instance_from_db(row) if row else None
-
-    #@classmethod
-    #def find_by_artist(cls, artist):
-        #"""Return a list of Song objects corresspondng to a given artist"""
 
     # Instance methods
     def save(self):
@@ -185,7 +157,6 @@ class Song:
         """
         CURSOR.execute(sql, (self.title, self.artist, self.genre, self.duration))
         CONN.commit()
-
         # Update object id atribute using primary key value of the new row.
         self.id = CURSOR.lastrowid
         # Save the bject to all_songs dictionary using the row's primary key as the dictionary key
@@ -200,8 +171,9 @@ class Song:
         """
         CURSOR.execute(sql, (self.title, self.artist, self.genre, self.duration, self.id,))
         CONN.commit()
+        # Update dictionary
         type(self).all_songs[self.id] = self
-        print(f"Song updated successfully: Title: {self.title}, Artist: {self.artist}, Genre: {self.genre}, Duration: {self.duration}")
+        print(f"Sucess! Song updated: Title: {self.title}, Artist: {self.artist}, Genre: {self.genre}, Duration: {self.duration}")
 
     def delete(self):
         """Delete the row corresponding to the current Song instance,
@@ -211,7 +183,6 @@ class Song:
             WHERE id = ?"""
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
-
         # Delete dictionary entry by id
         del type(self).all_songs[self.id]
         # Set id to None

@@ -23,13 +23,13 @@ class Playlist:
     # All property setters
     @name.setter
     def name(self, name):
-        if not isinstance(name, str) or len(name) == 0:
+        if not isinstance(name, str) or len(name) == 0: # Validation data type, length
             raise ValueError("Name must be a string of 1 or more characters")
         self._name = name
 
     @description.setter
     def description(self, description):
-        if not isinstance(description, str) or not ( 0 <= len(description) <= 50):
+        if not isinstance(description, str) or not ( 0 <= len(description) <= 50): # Validation data type, length
             raise ValueError("Description must be a string between 0 and 50 characters")
         self._description = description
 
@@ -54,6 +54,7 @@ class Playlist:
         """
         CURSOR.execute(sql)
         CONN.commit()
+        Playlist.all_playlists.clear() # clear dictionary
         print("All playlists have been deleted.")
 
     @classmethod
