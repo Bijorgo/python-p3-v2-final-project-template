@@ -59,9 +59,20 @@ class Playlist:
     @classmethod
     def create(cls, name: str, description: str):
         """Initialize a new Playlist instance and save to the database"""
-        playlist = cls(name, description)
-        playlist.save()
-        return playlist
+        # Check if playlist with that name exists
+        sql = """
+            SELECT 1
+            FROM playlists
+            WHERE name = ?
+        """
+        result = CURSOR.execute(sql, (name,)).fetchone()
+        if not result:
+            # If no result, create a new instance
+            playlist = cls(name, description)
+            playlist.save()
+            return playlist
+        else:
+            print("A playlist by that name already exists.")
 
     @classmethod
     # MAY HAVE ISSUES, OVERRIDES Playlist INSTANCE IN ALL_PLAYLISTS WHEN CALLED, EVEN IF ROW ALREADY EXISTS IN DICTIONARY
@@ -88,6 +99,7 @@ class Playlist:
         """
 
         row = CURSOR.execute(sql, (name,)).fetchone()
+        print(f"Query result: {row}") # debugging
         return Playlist.instance_from_db(row) if row else None
     
     @classmethod 
