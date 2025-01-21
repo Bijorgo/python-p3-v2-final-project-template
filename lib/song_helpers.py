@@ -16,13 +16,14 @@ def create_new_song():
 
 def delete_song():
     Song.create_table()
-    id = input("Enter song id: ")
-    song = Song.find_by_id(id)
+    given_title = input("Enter song title: ")
+    given_artist = input("Enter artist name: ")
+    song = Song.find_one_song(given_title, given_artist)
     if song:
         song.delete()
-        print(f"Song {song} deleted.")
+        print(f"Sucess! Song {song.title} deleted.")
     else:
-        print(f"Song {song} not found")
+        print(f"Song {given_title} by {given_artist} not found")
 
 def display_all_songs():
     Song.create_table()

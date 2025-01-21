@@ -126,15 +126,17 @@ class Song:
         return [Song.instance_from_db(row) for row in rows]
 
     @classmethod
-    def find_by_title(cls, title):
+    def find_one_song(cls, title, artist):
         """Return a Song object correspnding to the first row matching the given title"""
         sql = """
             SELECT *
             FROM songs
             WHERE title = ?
+            AND artist = ?
         """
-
-        row = CURSOR.execute(sql, (title,)).fetchone()
+        row = CURSOR.execute(sql, (title, artist,)).fetchone()
+        print(f"Looking for song titled: {title}") # debugging
+        print(f"By artist: {artist}") # debugging
         return Song.instance_from_db(row) if row else None
     
     @classmethod
