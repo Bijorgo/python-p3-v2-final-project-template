@@ -1,172 +1,121 @@
-# Phase 3 CLI+ORM Project Template
+# Playlist Manager
 
-## Learning Goals
+## Description
 
-- Discuss the basic directory structure of a CLI.
-- Outline the first steps in building a CLI.
+The Playlist Manager is a Python-based command-line interface (CLI) application that allows users to manage playlists and songs. It provides functionality to:
 
----
+- Create, update, and delete playlists and songs.
+- Add and remove songs from playlists with a many-to-many relationship.
+- View all playlists or songs.
+- Find playlists by name or songs by title/artist.
+- Perform a "master reset" to clear all tables and relationships.
 
-## Introduction
+## Technologies Used
 
-You now have a basic idea of what constitutes a CLI. Fork and clone this lesson
-for a project template for your CLI.
+- **Python**: The primary programming language for the application.
+- **SQLite**: The database used to store playlists, songs, and their relationships.
+- **Pipenv**: Used to manage dependencies in a virtual environment.
 
-Take a look at the directory structure:
+## Installation
 
-```console
-.
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── models
-    │   ├── __init__.py
-    │   └── model_1.py
-    ├── cli.py
-    ├── debug.py
-    └── helpers.py
-```
+To install and set up the project locally, follow these steps:
 
-Note: The directory also includes two files named `CONTRIBUTING.md` and
-`LICENSE.md` that are specific to Flatiron's curriculum. You can disregard or
-delete the files if you want.
+1. Clone the repository:
 
----
+    ```bash
+    git clone <repository_url>
+    cd <project_directory>
+    ```
 
-## Generating Your Environment
+2. Install the dependencies using `pipenv`:
 
-You might have noticed in the file structure- there's already a Pipfile!
+    ```bash
+    pipenv install
+    pipenv shell
+    ```
 
-Install any additional dependencies you know you'll need for your project by
-adding them to the `Pipfile`. Then run the commands:
+3. Run the CLI by executing:
 
-```console
-pipenv install
-pipenv shell
-```
+    ```bash
+    python lib/cli.py
+    ```
 
----
+## Usage
 
-## Generating Your CLI
+Once the application is running, you will be presented with a menu. You can interact with the CLI to manage playlists and songs as follows:
 
-A CLI is, simply put, an interactive script and prompts the user and performs
-operations based on user input.
+### Main Menu
 
-The project template has a sample CLI in `lib/cli.py` that looks like this:
+```text
+~~~~~~~~~~~~~~~~~~~~~
+~~Please select an option: ~~
+~~~~~~~~~~~~~~~~~~~~~
+1. Create Playlist or Song
+2. Update Playlist Or Song
+3. Look Up Playlist Or Song
+4. Display All Playlists or Songs
+5. Playlist Contents
+6. Delete Options
+~~~~~~~~~~~~~~~~~~~~~
+EXIT to Exit the program
 
-```py
-# lib/cli.py
+Available Options:
+Create Playlist or Song:
 
-from helpers import (
-    exit_program,
-    helper_1
-)
+Create a new playlist or song by providing necessary details (e.g., title, artist, genre).
+Update Playlist Or Song:
+
+Update the name, description, or other details of an existing playlist or song.
+Look Up Playlist Or Song:
+
+Find a playlist by its name or search for a song by its title.
+Display All Playlists or Songs:
+
+View all the available playlists or songs stored in the database.
+Playlist Contents:
+
+Add or remove songs from playlists or view the songs in a specific playlist.
+Delete Options:
+
+Delete a specific playlist or song, or clear all playlists, songs, or relationships between them. You can also perform a "MASTER RESET" to clear all data.
+Example Commands:
+Create Playlist:
+
+Select option 1 and choose "Playlist" to create a new playlist.
+Add Song to Playlist:
+
+Select option 5 ("Playlist Contents"), then choose option 1 to add a song to a playlist.
+Delete Playlist:
+
+Select option 6, then option 1 to delete a specific playlist.
+Master Reset:
+
+Select option 6, then option 6 to perform a master reset, clearing all tables and relationships.
+Directory Structure
+The project follows the structure below:
+
+playlist-manager/
+│
+├── lib/
+│   ├── models/
+│   │   ├── __init__.py       # Initialization for the models
+│   │   ├── junction.py       # Junction table model for playlist-song relationships
+│   │   ├── playlist.py       # Playlist model
+│   │   └── song.py           # Song model
+│   ├── cli.py                # Entry point for the application (CLI)
+│   ├── database.py           # Database connection and setup
+│   ├── debug.py              # Debugging utilities
+│   ├── general_helpers.py    # General helper functions
+│   ├── junction_helper.py    # Helper functions for playlist-song relationships
+│   ├── playlist_helpers.py   # Helper functions for playlist management
+│   ├── song_helpers.py       # Helper functions for song management
+│
+└── README.md                 # Project documentation
 
 
-def main():
-    while True:
-        menu()
-        choice = input("> ")
-        if choice == "0":
-            exit_program()
-        elif choice == "1":
-            helper_1()
-        else:
-            print("Invalid choice")
 
+No License
+This project is for educational purposes and does not have a formal license.
 
-def menu():
-    print("Please select an option:")
-    print("0. Exit the program")
-    print("1. Some useful function")
+Note: This is a school project and is not accepting contributions at this time.
 
-
-if __name__ == "__main__":
-    main()
-```
-
-The helper functions are located in `lib/helpers.py`:
-
-```py
-# lib/helpers.py
-
-def helper_1():
-    print("Performing useful function#1.")
-
-
-def exit_program():
-    print("Goodbye!")
-    exit()
-```
-
-You can run the template CLI with `python lib/cli.py`, or include the shebang
-and make it executable with `chmod +x`. The template CLI will ask for input, do
-some work, and accomplish some sort of task.
-
-Past that, CLIs can be whatever you'd like, as long as you follow the project
-requirements.
-
-Of course, you will update `lib/cli.py` with prompts that are appropriate for
-your application, and you will update `lib/helpers.py` to replace `helper_1()`
-with a useful function based on the specific problem domain you decide to
-implement, along with adding other helper functions to the module.
-
-In the `lib/models` folder, you should rename `model_1.py` with the name of a
-data model class from your specific problem domain, and add other classes to the
-folder as needed. The file `lib/models/__init__.py` has been initialized to
-create the necessary database constants. You need to add import statements to
-the various data model classes in order to use the database constants.
-
-You are also welcome to implement a different module and directory structure.
-However, your project should be well organized, modular, and follow the design
-principal of separation of concerns, which means you should separate code
-related to:
-
-- User interface
-- Data persistence
-- Problem domain rules and logic
-
----
-
-## Updating README.md
-
-`README.md` is a Markdown file that should describe your project. You will
-replace the contents of this `README.md` file with a description of **your**
-actual project.
-
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this assignments's resources for a basic guide to Markdown.
-
-### What Goes into a README?
-
-This README serves as a template. Replace the contents of this file to describe
-the important files in your project and describe what they do. Each Python file
-that you edit should get at least a paragraph, and each function should be
-described with a sentence or two.
-
-Describe your actual CLI script first, and with a good level of detail. The rest
-should be ordered by importance to the user. (Probably functions next, then
-models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
----
-
-## Conclusion
-
-A lot of work goes into a good CLI, but it all relies on concepts that you've
-practiced quite a bit by now. Hopefully this template and guide will get you off
-to a good start with your Phase 3 Project.
-
-Happy coding!
-
----
-
-## Resources
-
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
