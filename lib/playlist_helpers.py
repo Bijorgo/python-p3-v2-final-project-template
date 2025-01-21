@@ -15,13 +15,13 @@ def create_new_playlist():
 
 def delete_playlist():
     Playlist.create_table()
-    id = input("Enter playlist id: ")
-    playlist = Playlist.find_by_id(id)
+    given_name = input("Enter playlist name: ")
+    playlist = Playlist.find_by_name(given_name)
     if playlist:
         playlist.delete()
         print(f"Playlist {playlist} deleted.")
     else:
-        print(f"Playlist {playlist} not found.")
+        print(f"Playlist {given_name} not found.")
 
 def display_all_playlists():
     Playlist.create_table()
