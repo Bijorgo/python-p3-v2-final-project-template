@@ -84,15 +84,6 @@ class Song:
     @classmethod   
     def create(cls, title: str, artist: str, genre: str, duration: float):
         """Inititalize a new Song instance and save to database""" 
-        # Verify data types
-        if not isinstance(title, str):
-            raise TypeError(f"Title must be a string.")
-        if not isinstance(artist, str):
-            raise TypeError(f"Artist must be a string.")
-        if not isinstance(genre, str):
-            raise TypeError(f"Artist must be a string.")
-        if not isinstance(duration, float):
-            raise TypeError(f"Duration must be a decimal number.")
         # Check if song with that title and artist combo exist
         sql = """
             SELECT 1 

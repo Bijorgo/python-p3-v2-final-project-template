@@ -2,7 +2,6 @@ from models.__init__ import CURSOR, CONN
 
 class Playlist:
     all_playlists = {}
-    # ADD CODE TO OPERATIONS THAT MODIFY TABLES TO CHECK DICTIONARY AS WELL
     def __init__(self, name, description):
         self.id = None  # id will be set in database
         self._name = name
@@ -60,11 +59,6 @@ class Playlist:
     @classmethod
     def create(cls, name: str, description: str):
         """Initialize a new Playlist instance and save to the database"""
-        # Verify data types
-        if not isinstance(name, str):
-            raise TypeError(f"Name must be a string.")
-        if not isinstance(description, str):
-            raise TypeError(f"Description must be a string.")
         # Check if playlist with that name exists
         sql = """
             SELECT 1
@@ -82,7 +76,6 @@ class Playlist:
             print("A playlist by that name already exists. Duplicate playlist not created.")
 
     @classmethod
-    # MAY HAVE ISSUES, OVERRIDES Playlist INSTANCE IN ALL_PLAYLISTS WHEN CALLED, EVEN IF ROW ALREADY EXISTS IN DICTIONARY
     def instance_from_db(cls, row):
         """Return a Playlist object with attribute values from table row"""
         # Look up playlist by id in all_playlists dictionary
@@ -98,42 +91,19 @@ class Playlist:
     
     @classmethod 
     def find_by_name(cls, name: str):
-        """Return a Playlist object corresponding to the first table row matching given name"""
-        if not isinstance(name, str):
-            raise TypeError("Playlist name must be a string.") 
+        """Return a Playlist object corresponding to the first table row matching given name""" 
         sql = """
             SELECT *
             FROM playlists
             WHERE name = ?
         """
         row = CURSOR.execute(sql, (name,)).fetchone()
-        print(f"Looking for playlist: {name}") # debugging
-        print(f"Query result: {row}") # debugging
+        #print(f"Looking for playlist: {name}") # debugging
+        #print(f"Query result: {row}") # debugging
         if row:
            return Playlist.instance_from_db(row) 
         else:
             print("Playlist not found.")
-    
-    @classmethod 
-    def find_by_id(cls, id):
-        """Return a Playlist object corresponding to the first table row matching given id"""
-        try:
-            # Ensure the id is an integer
-            id = int(id)  # Convert id to an integer if it's not already
-        except ValueError:
-            print(f"Error: Invalid id '{id}'")
-            return None
-        
-        print(f"Looking for playlist with ID: {id}") # debugging to verify id
-        
-        sql = """
-            SELECT *
-            FROM playlists
-            WHERE id = ?
-        """
-        row = CURSOR.execute(sql, (id,)).fetchone()
-        print(f"Query result: {row}") # debugging
-        return Playlist.instance_from_db(row) if row else None
 
     # Instance methods
     def save(self):
@@ -158,8 +128,9 @@ class Playlist:
         """
         CURSOR.execute(sql, (self.name, self.description, self.id,))
         CONN.commit()
+        # Update dictionary
         type(self).all_playlists[self.id] = self
-        print(f"Playlist updated successfully: Name: {self.name}, Description: {self.description}")
+        print(f"Sucess! Playlist updated: Name: {self.name}, Description: {self.description}")
 
     def delete(self):
         """Delete the table row corresponding to the current Playlist instance."""
@@ -167,10 +138,8 @@ class Playlist:
             DELETE FROM playlists
             WHERE id = ?
         """
-
         CURSOR.execute(sql,(self.id,))
         CONN.commit()
-        
         # Delete dictionary entry by id
         del type(self).all_playlists[self.id]
         # Set id to None
@@ -184,18 +153,6 @@ class Playlist:
             SELECT *
             FROM playlists
         """
-
         rows = CURSOR.execute(sql).fetchall()
+        # Return as a list
         return [Playlist.instance_from_db(row) for row in rows]
-
-    def view_songs(self):
-        """Return a list of songs associated with current playlist"""
-        from song import Song    
-        sql = """
-            SELECT *
-            FROM songs
-            WHERE playlist_id = ?
-        """
-        CURSOR.execute(sql,(self.id,))
-        rows = CURSOR.fetchall()
-        return [Song.instance_from_db(row) for row in rows]
