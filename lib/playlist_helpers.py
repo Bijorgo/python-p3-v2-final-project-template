@@ -8,8 +8,7 @@ def create_new_playlist():
     name = input("Enter playlist name: ")
     description = input("Enter playlist description: ")
     try:
-        playlist = Playlist.create(name, description) # Create new playlist instance
-        print(f"Success! {playlist} created.")
+        Playlist.create(name, description) # Create new playlist instance
     except Exception as exc:
         print("Error creating playlist: ", exc)
 

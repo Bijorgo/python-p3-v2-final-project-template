@@ -70,9 +70,10 @@ class Playlist:
             # If no result, create a new instance
             playlist = cls(name, description)
             playlist.save()
+            print(f"Success! {playlist} created.")
             return playlist
         else:
-            print("A playlist by that name already exists.")
+            print("A playlist by that name already exists. Duplicate playlist not created.")
 
     @classmethod
     # MAY HAVE ISSUES, OVERRIDES Playlist INSTANCE IN ALL_PLAYLISTS WHEN CALLED, EVEN IF ROW ALREADY EXISTS IN DICTIONARY
