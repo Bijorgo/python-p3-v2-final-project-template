@@ -63,6 +63,11 @@ def view_songs_in_playlist():
 
 def master_reset():
     # This function drops all tables
+    # This is implemented over clearing all rows from a/all tables
+    # in order to reset table creation in response to a bug 
+    # where id was NULL until table was dropped and a new table was created 
+    # It may be useful to add clear all rows, but the user
+    # will likely have the same experience
     confirmation = input("Are you sure you want to delete all data tables? Please type: `MASTER RESET` : ")
     if confirmation == "MASTER RESET":
         # Drop tables
