@@ -42,3 +42,6 @@ def find_song_by_title():
         print(song)
     else:
         print(f"Sorry, {song} not found")
+
+def update_song_info():
+    pass

@@ -41,7 +41,5 @@ def find_playlist_by_name():
     else:
         print(f"Sorry, playlist {playlist} not found.")
 
-
-def exit_program():
-    print("Goodbye!")
-    exit()
+def update_playlist_info():
+    pass

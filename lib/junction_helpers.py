@@ -26,5 +26,28 @@ def adding_song_to_playlist():
         print(f"Sorry, playlist `{playlist_entered}` or `{song_found} not found.")
 
 def clear_all_relationships():
-     Junction.drop_table()
-     print(f"All playlists cleared.")
+    confirmation = input("Are you sure you want to clear all songs from all playlists? y/n ")
+    if confirmation == "y":
+        Junction.drop_table()
+        print(f"All playlists cleared.")
+    else:
+         print("Playlists will not be cleared.")
+
+def view_songs_in_playlist():
+    playlist_entered = int(input("Please enter playlist id: ")) # Ensure input is an integer
+    print(f"Entered: {playlist_entered}") # debugging
+    playlist_retrieved = Playlist.find_by_id(playlist_entered)
+    print(f"Found: {playlist_retrieved}") # debugging
+
+    
+    if playlist_retrieved:
+        songs_in_playlist = Junction.view_songs_in_playlist(playlist_retrieved.id)
+        print("Songs in playlist: ")
+        for song in songs_in_playlist:
+            print(f"Title: {song[1]}, Artist:{song[2]}")
+    else:
+        print("Sorry, playlist not found.")
+
+def exit_program():
+    print("Goodbye!")
+    exit()
