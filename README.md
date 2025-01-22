@@ -37,7 +37,7 @@ To install and set up the project locally, follow these steps:
 3. Run the CLI by executing:
 
     ```bash
-    python lib/cli.py
+    lib/cli.py
     ```
 
 ## Usage
@@ -48,7 +48,7 @@ Once the application is running, you will be presented with a menu. You can inte
 
 ```text
 ~~~~~~~~~~~~~~~~~~~~~
-~~Please select an option: ~~
+~~ Please select an option: ~~
 ~~~~~~~~~~~~~~~~~~~~~
 1. Create Playlist or Song
 2. Update Playlist Or Song
@@ -61,37 +61,29 @@ EXIT to Exit the program
 ```
 
 ### Available Options:
-Create Playlist or Song:
-
+#### Create Playlist or Song:
 Create a new playlist or song by providing necessary details (e.g., title, artist, genre).
-Update Playlist Or Song:
 
+
+#### Update Playlist Or Song:
 Update the name, description, or other details of an existing playlist or song.
-Look Up Playlist Or Song:
 
+
+#### Look Up Playlist Or Song:
 Find a playlist by its name or search for a song by its title.
-Display All Playlists or Songs:
 
+
+#### Display All Playlists or Songs:
 View all the available playlists or songs stored in the database.
-Playlist Contents:
 
+
+#### Playlist Contents:
 Add or remove songs from playlists or view the songs in a specific playlist.
-Delete Options:
 
+
+#### Delete Options:
 Delete a specific playlist or song, or clear all playlists, songs, or relationships between them. You can also perform a "MASTER RESET" to clear all data.
-Example Commands:
-Create Playlist:
 
-Select option 1 and choose "Playlist" to create a new playlist.
-Add Song to Playlist:
-
-Select option 5 ("Playlist Contents"), then choose option 1 to add a song to a playlist.
-Delete Playlist:
-
-Select option 6, then option 1 to delete a specific playlist.
-Master Reset:
-
-Select option 6, then option 6 to perform a master reset, clearing all tables and relationships.
 
 ## Directory Structure
 The project follows the structure below:
