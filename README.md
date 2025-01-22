@@ -39,6 +39,14 @@ To install and set up the project locally, follow these steps:
     ```bash
     lib/cli.py
     ```
+If you run into a permissions error, you may need to execute:
+    ```bash
+    chmod +x lib/cli.py
+    ```
+Now you should be able to start the CLI by executing:
+    ```bash
+    lib/cli.py
+    ```
 
 ## Usage
 
