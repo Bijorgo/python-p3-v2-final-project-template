@@ -66,7 +66,7 @@ def display_all():
     print("What would you like to display?")
     print("1. Playlists")
     print("2. Songs")
-    choice = input("Display all: ").strip()
+    choice = input("Display all: ")
     if choice == '1':
         display_all_playlists()
     elif choice == '2':

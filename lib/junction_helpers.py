@@ -71,12 +71,12 @@ def master_reset():
     confirmation = input("Are you sure you want to delete all data tables? Please type: `MASTER RESET` : ")
     if confirmation == "MASTER RESET":
         # Drop tables
-        Playlist.drop_table
-        Song.drop_table()
         Junction.drop_table()
+        Playlist.drop_table()
+        Song.drop_table()
         # Reset all dictionaries
         Song.all_songs.clear()
         Playlist.all_playlists.clear()
-        print("All tables dropped.")
+        print("Finished: All tables dropped.")
     else:
         print("No changes made.")

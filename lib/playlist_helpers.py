@@ -1,10 +1,30 @@
 # lib/playlist_helpers.py
 from models.playlist import Playlist
 
+def validate_input(prompt, validation_func, error_message):
+    """Reusable function for validating input."""
+    while True:
+        user_input = input(prompt).strip().lower()
+        if validation_func(user_input):
+            return user_input
+        else:
+            print(error_message)
+
+def validate_non_empty_string(value):
+    """Helper function to validate a non-empty string."""
+    return isinstance(value, str) and len(value) >= 1
+
 def create_new_playlist():
-    Playlist.create_table()  
-    name = input("Enter playlist name: ").strip().lower() # All inputs will be stored lowercased, no trailing white space
+    Playlist.create_table() 
+    # Validate name input
+    name = validate_input("Enter playlist name: ", validate_non_empty_string, "Name must be a string of 1 or more characters.")
+       
+    # Default description input to None if no input 
     description = input("Enter playlist description: ").strip().lower()
+    if not description:
+        description = None # Default description to None
+
+    # Try to create new playlist instance
     try:
         Playlist.create(name, description) # Create new playlist instance
     except Exception as exc:
@@ -35,7 +55,7 @@ def display_all_playlists():
 def find_playlist_by_name():
     playlist, given_name = find_playlist()
     if playlist:
-        print(playlist)
+        print(f"Playlist found: {playlist}")
     else:
         print(f"Sorry, playlist {given_name} not found.")
 
@@ -59,14 +79,11 @@ def update_playlist_info():
         
         # Update the chosen field
         if choice == '1':
-            new_name = input("Enter the new name: ").strip().lower()
-            # Data type validation
-            if not isinstance(new_name, str) or not 0 <= len(new_name):
-                raise TypeError("Playlist name must be a string of 1 or more characters.") 
+            new_name = validate_input("Enter new playlist name: ", validate_non_empty_string, "Name must be a string of 1 or more characters.")
             playlist.name = new_name
         elif choice == '2':
-            new_description = input("Enter the new description: ").strip().lower()
-            if not isinstance(new_description, str) or not ( 0 < len(new_description) <= 50):
+            new_description = str(input("Enter the new description: ")).strip().lower()
+            if not isinstance(new_description, str):
                 raise TypeError("Playlist description must be a string between 0 and 50 characters") 
             playlist.description = new_description
         else:

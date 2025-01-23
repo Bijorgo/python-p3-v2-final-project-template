@@ -2,7 +2,7 @@ from models.__init__ import CURSOR, CONN
 
 class Playlist:
     all_playlists = {}
-    def __init__(self, name, description):
+    def __init__(self, name, description=None):
         self.id = None  # id will be set in database
         self._name = name
         self._description = description
@@ -20,17 +20,23 @@ class Playlist:
     def description(self):
         return self._description
     
+    
+    
     # All property setters
+    # Helper method for validation
+    def _set_non_empty_string_attribute(self, attribute_name, value):
+        """Helper method to validate string-based attributes to ensure they are non-empty."""
+        if not isinstance(value, str) or len(value) == 0:
+            raise ValueError(f"{attribute_name} must be a non-empty string.")
+        
     @name.setter
     def name(self, name):
-        if not isinstance(name, str) or len(name) == 0: # Validation data type, length
-            raise ValueError("Name must be a string of 1 or more characters")
+        self._set_non_empty_string_attribute("Name", name)
         self._name = name
 
     @description.setter
     def description(self, description):
-        if not isinstance(description, str) or not ( 0 <= len(description) <= 50): # Validation data type, length
-            raise ValueError("Description must be a string between 0 and 50 characters")
+        self._set_non_empty_string_attribute("Description", description)
         self._description = description
 
     # Class methods
@@ -131,7 +137,7 @@ class Playlist:
         CONN.commit()
         # Update dictionary
         type(self).all_playlists[self.id] = self
-        print(f"Sucess! Playlist updated: Name: {self.name}, Description: {self.description}")
+        print(f"Success! Playlist updated: Name: {self.name}, Description: {self.description}")
 
     def delete(self):
         """Delete the table row corresponding to the current Playlist instance."""

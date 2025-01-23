@@ -4,10 +4,39 @@ from models.song import Song
 
 def create_new_song():
     Song.create_table() # Check if table exist, if no: create table
-    title = input("Enter song title: ").strip().lower() # All inputs will be stored lowercased, no trailing whitespaces
-    artist = input("Enter artist name: ").strip().lower()
-    genre = input("Enter genre: ").strip().lower()
+    # Take title input and validate
+    while True:
+        title = str(input("Enter song title: ").strip().lower()) # All inputs will be stored as a string, lowercased, no trailing whitespaces
+        if isinstance(title, str) or len(title) >= 1: # Validation data type, length
+            break
+        else:
+            print("Title must be a string of one or more characters") 
+
+    # Take artist input and validate
+    while True:
+        artist = str(input("Enter artist name: ").strip().lower())
+        if isinstance(artist, str) or len(artist) >= 1: # Validation data type, length
+            break
+        else:
+            print("Artist must be a string one or more characters")
+    
+    # Take genre input, default to None
+    genre = str(input("Enter genre: ").strip().lower())
+    if not genre:
+        genre = None # Default genre to None
+
+    # Take duration input, default to None
     duration = input("Enter duration: ").strip().lower()
+    try:
+        if duration:
+            duration = float(duration)  # Convert to float if it's not empty
+        else:
+            duration = None # Default to None
+    except ValueError:
+        print("Invalid duration input. Please enter a valid number.")
+
+
+    # Try creating new song instance
     try:
         Song.create(title, artist, genre, duration)
     except Exception as exc:
@@ -39,8 +68,7 @@ def display_all_songs():
 def find_song_by_title():
     song, given_title, given_artist = find_song()
     if song:
-        print(f"Song found!")
-        print(f"Title: {song.title}, Artist: {song.artist}, Genre: {song.genre}, Duration: {song.duration}")
+        print(f"Song found! \nTitle: {song.title}, Artist: {song.artist}, Genre: {song.genre}, Duration: {song.duration}")
     else:
         print(f"Sorry, {given_title} not found")
 
@@ -67,25 +95,30 @@ def update_song_info():
         
         # Update the chosen field
         if choice == '1':
-            new_title = input("Enter the new title: ").strip().lower()
-            if not isinstance(new_title, str) or not 0 <= len(new_title):
+            new_title = str(input("Enter the new title: ")).strip().lower()
+            if not isinstance(new_title, str) or  len(new_title) == 0:
                 raise TypeError("Song title must be a string of 1 or more characters.")
             song.title = new_title
         elif choice == '2':
-            new_artist = input("Enter the new artist: ").strip().lower()
+            new_artist = str(input("Enter the new artist: ")).strip().lower()
             if not isinstance(new_artist, str) or not 0 <= len(new_artist):
                 raise TypeError("Song artist must be a string of 1 or more characters.")
             song.artist = new_artist
         elif choice == '3':
             new_genre = input("Enter the new genre: ").strip().lower()
-            if not isinstance(new_genre, str) or not 0 <= len(new_genre):
-                raise TypeError("Song genre must be a string of 1 or more characters.")
+            if not new_genre:
+                new_genre = None # Default to none
             song.genre = new_genre
         elif choice == '4':
-            new_duration = input("Enter the new duration: ").strip().lower()
-            if not isinstance(new_duration, (int, float)):
-                raise TypeError("Song duration must be a decimal number.")
-            song.duration = new_duration
+            new_duration = input("Enter the new duration: ").strip()
+            try:
+                if new_duration:
+                    new_duration = float(duration)  # Convert to float if it's not empty
+                else:
+                    duration = None
+            except ValueError:
+                print("Invalid duration input. Please enter a valid number.")
+                return
         else:
             print("Invalid choice. No changes made.")
             return

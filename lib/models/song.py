@@ -3,7 +3,7 @@ from models.__init__ import CURSOR, CONN
 class Song:
     all_songs = {}
 
-    def __init__(self, title, artist, genre, duration=None):
+    def __init__(self, title, artist, genre=None, duration=None):
         self.id = None # id assignment will happen in database
         self._title = title
         self._artist = artist
@@ -46,13 +46,14 @@ class Song:
         
     @genre.setter
     def genre(self, genre):
-        if not isinstance(genre, str) or len(genre) == 0: # Validation data type, length
+        if not isinstance(genre, str) and not None: # Validation data type
             raise ValueError("Genre must be a string one or more characters")
         self._genre = genre
         
     @duration.setter
     def duration(self, duration):
-        if not isinstance(duration, (float, int)): # Validation data type
+        if not isinstance(duration, (float, int)) and not None: # Validation data type
+            print("Duration must be a decimal number")
             raise ValueError("Duration must be a decimal number")
         self._duration = duration
         
@@ -97,7 +98,7 @@ class Song:
         if not result: 
             song = cls(title, artist, genre, duration)
             song.save()
-            print(f"Sucess! {song.title} created.")
+            print(f"Success! {song.title} created.")
             return song
         else:
             print("A song by that title and artist already exists.")
@@ -106,16 +107,23 @@ class Song:
     def instance_from_db(cls, row):
         """Return a Song object with attribute values from table row"""
 
+        # Check if the row data is valid before proceeding
+        if not row or len(row) < 5:
+            print(f"Invalid row data: {row}")
+            return None  # Return None if the data is invalid
+
         song = cls.all_songs.get(row[0])
-        if song:
-            song.title = row[1]
-            song.artist = row[2]
-            song.genre = row[3]
-            song.duration = row[4]
-        else:
-            song = cls(row[1], row[2], row[3], row[4])
-            song.id = row[0]
-            Song.all_songs[song.id] = song
+        #if song:
+            # If song exists, update attributes
+            #song.title = row[1]
+            #song.artist = row[2]
+            #song.genre = row[3]
+            #song.duration = row[4]
+        #else:
+            # If song doesn't exist, create new instance
+            #song = cls(row[1], row[2], row[3], row[4])
+            #song.id = row[0]
+            #Song.all_songs[song.id] = song
         return song
     
     @classmethod
@@ -173,7 +181,7 @@ class Song:
         CONN.commit()
         # Update dictionary
         type(self).all_songs[self.id] = self
-        print(f"Sucess! Song updated: Title: {self.title}, Artist: {self.artist}, Genre: {self.genre}, Duration: {self.duration}")
+        print(f"Success! Song updated: Title: {self.title}, Artist: {self.artist}, Genre: {self.genre}, Duration: {self.duration}")
 
     def delete(self):
         """Delete the row corresponding to the current Song instance,
@@ -187,4 +195,4 @@ class Song:
         del type(self).all_songs[self.id]
         # Set id to None
         self.id = None
-        print(f"Sucess! Song {self.title} deleted.")
+        print(f"Success! Song {self.title} deleted.")
