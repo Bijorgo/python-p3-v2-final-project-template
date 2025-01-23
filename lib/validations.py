@@ -1,6 +1,7 @@
 # lib/validations.py
 
 #Helper methods for validation
+
 # Validate for string 
 def _validate_string_attribute(self, attribute_name, value):
     """Helper method to validate string-based attributes."""
