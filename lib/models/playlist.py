@@ -1,7 +1,7 @@
 from models.__init__ import CURSOR, CONN
 
 class Playlist:
-    #from validations import _validate_string_attribute, validate_non_empty_string, _validate_not_empty_attribute
+    from validations import _validate_string_attribute, validate_non_empty_string, _validate_not_empty_attribute
     all_playlists = {}
 
     def __init__(self, name, description=None):
