@@ -46,8 +46,8 @@ def create_new_song():
 
 def find_song():
     Song.create_table() # Check if table exists, if no: create one
-    given_title = input("Enter song title: ").strip().lower()
-    given_artist = input("Enter artist name: ").strip().lower()
+    given_title = validate_input("Enter song title: ", validate_non_empty_string, "No input, try again").strip().lower()
+    given_artist = validate_input("Enter artist name: ", validate_non_empty_string, "No input, try again").strip().lower()
     song = Song.find_one_song(given_title, given_artist)
     return song, given_title, given_artist        
 

@@ -22,25 +22,25 @@ class Playlist:
     
     # All property setters
     # Helper methods for validation
-    def _set_string_attribute(self, attribute_name, value):
+    def _validate_string_attribute(self, attribute_name, value):
         """Helper method to validate string-based attributes."""
         if not isinstance(value, str):
             raise ValueError(f"{attribute_name} must be a string.")
         
-    def _set_not_empty_attribute(self, attribute_name, value):
+    def _validate_not_empty_attribute(self, attribute_name, value):
         """Helper method to validate non-empty attributes."""
         if len(value) == 0:
             raise ValueError(f"{attribute_name} must not be empty.")
         
     @name.setter
     def name(self, name):
-        self._set_string_attribute("Name", name)
-        self._set_not_empty_attribute("Name", name)
+        self._validate_string_attribute("Name", name)
+        self._validate_not_empty_attribute("Name", name)
         self._name = name
 
     @description.setter
     def description(self, description):
-        if description is None:
+        if not description:
             self._description = None
         else:
             self._description = description
@@ -116,7 +116,7 @@ class Playlist:
         if row:
            return Playlist.instance_from_db(row) 
         else:
-            print("Playlist not found.")
+            return None
 
     # Instance methods
     def save(self):

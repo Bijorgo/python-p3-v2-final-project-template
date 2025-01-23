@@ -1,5 +1,6 @@
 # lib/playlist_helpers.py
 from models.playlist import Playlist
+from song_helpers import validate_non_empty_string
 
 def validate_input(prompt, validation_func, error_message):
     """Reusable function for validating input."""
@@ -13,7 +14,7 @@ def validate_input(prompt, validation_func, error_message):
 def create_new_playlist():
     Playlist.create_table() 
     # Validate name input
-    name = validate_input("Enter playlist name: ", Playlist._set_not_empty_attribute, "Name must be 1 or more characters.")
+    name = validate_input("Enter playlist name: ", validate_non_empty_string, "Name must be one or more chracters")
        
     # Default description input to None if no input 
     description = input("Enter playlist description: ".strip().lower())
@@ -28,7 +29,7 @@ def create_new_playlist():
 
 def find_playlist():
     Playlist.create_table() # Check if table exist, if no: create table
-    given_name = input("Enter playlist name: ").strip().lower()   
+    given_name = validate_input("Enter playlist name: ", validate_non_empty_string, "No input, try again").strip().lower()
     playlist = Playlist.find_by_name(given_name) # Find playlist based on input
     return playlist, given_name
 
@@ -75,20 +76,16 @@ def update_playlist_info():
         
         # Update the chosen field
         if choice == '1':
-            new_name = validate_input("Enter new playlist name: ", playlist._set_not_empty_attribute, "Name must be a string of 1 or more characters.")
+            new_name = validate_input("Enter new playlist name: ", validate_non_empty_string, "Name must be a string of 1 or more characters.")
             try:
-                # Validate that new_name is a string
-                playlist._set_string_attribute('name', new_name)
-                # Validate that new_name is not empty
-                playlist._set_not_empty_attribute('name', new_name)
                 playlist.name = new_name
             except ValueError as verr:
                 print(f"Error: {verr}")
                 return
         elif choice == '2':
             new_description = input("Enter the new description: ").strip().lower()
-            if not new_description:
-                new_description = None # Default to None
+            #if not new_description:
+                #new_description = None # Default to None
             playlist.description = new_description
         else:
             print("Invalid choice. No changes made.")
