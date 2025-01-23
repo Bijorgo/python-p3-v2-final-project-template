@@ -7,24 +7,21 @@ def create_new_song():
     Song.create_table() # Check if table exist, if no: create table
     # Validate title input
     title = validate_input("Enter song title: ", validate_non_empty_string,  "Title must be a string of 1 or more characters.")
-    
     # Validate artist input
     artist = validate_input("Enter artist name: ", validate_non_empty_string,  "Name must be a string of 1 or more characters.")
-    
     # Take genre input, default to None
     genre = str(input("Enter genre: ").strip().lower())
     if not genre:
         genre = None # Default genre to None
-
     # Take duration input, default to None
     duration = input("Enter duration: ").strip().lower()
-    try:
-        if duration:
-            duration = float(duration)  # Convert to float if it's not empty
-        else:
-            duration = None # Default to None
-    except ValueError:
-        print("Invalid duration input. Please enter a valid number.")
+    #try:
+    if  isinstance(duration, (float, int)):
+        duration = float(duration)  # Convert to float
+    else:
+        duration = None # All other values default to None
+    #except ValueError:
+        #print("Invalid duration input. Please enter a valid number.")
 
     # Try creating new song instance
     try:
