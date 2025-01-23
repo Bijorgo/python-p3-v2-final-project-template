@@ -20,24 +20,30 @@ class Playlist:
     def description(self):
         return self._description
     
-    
-    
     # All property setters
-    # Helper method for validation
-    def _set_non_empty_string_attribute(self, attribute_name, value):
-        """Helper method to validate string-based attributes to ensure they are non-empty."""
-        if not isinstance(value, str) or len(value) == 0:
-            raise ValueError(f"{attribute_name} must be a non-empty string.")
+    # Helper methods for validation
+    def _set_string_attribute(self, attribute_name, value):
+        """Helper method to validate string-based attributes."""
+        if not isinstance(value, str):
+            raise ValueError(f"{attribute_name} must be a string.")
+        
+    def _set_not_empty_attribute(self, attribute_name, value):
+        """Helper method to validate non-empty attributes."""
+        if len(value) == 0:
+            raise ValueError(f"{attribute_name} must not be empty.")
         
     @name.setter
     def name(self, name):
-        self._set_non_empty_string_attribute("Name", name)
+        self._set_string_attribute("Name", name)
+        self._set_not_empty_attribute("Name", name)
         self._name = name
 
     @description.setter
     def description(self, description):
-        self._set_non_empty_string_attribute("Description", description)
-        self._description = description
+        if description is None:
+            self._description = None
+        else:
+            self._description = description
 
     # Class methods
     @classmethod
@@ -64,7 +70,7 @@ class Playlist:
         print("All playlists have been deleted.")
 
     @classmethod
-    def create(cls, name: str, description: str):
+    def create(cls, name: str, description):
         """Initialize a new Playlist instance and save to the database"""
         # Check if playlist with that name exists
         sql = """

@@ -2,23 +2,26 @@
 
 from models.song import Song
 
+def validate_input(prompt, validation_func, error_message):
+    """Reusable function for validating input."""
+    while True:
+        user_input = str(input(prompt).strip().lower())
+        if validation_func(user_input):
+            return user_input
+        else:
+            print(error_message)
+
+def validate_non_empty_string(value):
+    """Helper function to validate a non-empty string."""
+    return isinstance(value, str) and len(value) >= 1
+
 def create_new_song():
     Song.create_table() # Check if table exist, if no: create table
-    # Take title input and validate
-    while True:
-        title = str(input("Enter song title: ").strip().lower()) # All inputs will be stored as a string, lowercased, no trailing whitespaces
-        if isinstance(title, str) or len(title) >= 1: # Validation data type, length
-            break
-        else:
-            print("Title must be a string of one or more characters") 
-
-    # Take artist input and validate
-    while True:
-        artist = str(input("Enter artist name: ").strip().lower())
-        if isinstance(artist, str) or len(artist) >= 1: # Validation data type, length
-            break
-        else:
-            print("Artist must be a string one or more characters")
+    # Validate title input
+    title = validate_input("Enter song title: ", validate_non_empty_string,  "Title must be a string of 1 or more characters.")
+    
+    # Validate artist input
+    artist = validate_input("Enter artist name: ", validate_non_empty_string,  "Name must be a string of 1 or more characters.")
     
     # Take genre input, default to None
     genre = str(input("Enter genre: ").strip().lower())
@@ -34,7 +37,6 @@ def create_new_song():
             duration = None # Default to None
     except ValueError:
         print("Invalid duration input. Please enter a valid number.")
-
 
     # Try creating new song instance
     try:
@@ -95,14 +97,10 @@ def update_song_info():
         
         # Update the chosen field
         if choice == '1':
-            new_title = str(input("Enter the new title: ")).strip().lower()
-            if not isinstance(new_title, str) or  len(new_title) == 0:
-                raise TypeError("Song title must be a string of 1 or more characters.")
+            new_title = validate_input("Enter song title: ", validate_non_empty_string,  "Title must be a string of 1 or more characters.")
             song.title = new_title
         elif choice == '2':
-            new_artist = str(input("Enter the new artist: ")).strip().lower()
-            if not isinstance(new_artist, str) or not 0 <= len(new_artist):
-                raise TypeError("Song artist must be a string of 1 or more characters.")
+            new_artist = validate_input("Enter artist name: ", validate_non_empty_string,  "Name must be a string of 1 or more characters.")
             song.artist = new_artist
         elif choice == '3':
             new_genre = input("Enter the new genre: ").strip().lower()

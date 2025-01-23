@@ -10,17 +10,13 @@ def validate_input(prompt, validation_func, error_message):
         else:
             print(error_message)
 
-def validate_non_empty_string(value):
-    """Helper function to validate a non-empty string."""
-    return isinstance(value, str) and len(value) >= 1
-
 def create_new_playlist():
     Playlist.create_table() 
     # Validate name input
-    name = validate_input("Enter playlist name: ", validate_non_empty_string, "Name must be a string of 1 or more characters.")
+    name = validate_input("Enter playlist name: ", Playlist._set_not_empty_attribute, "Name must be 1 or more characters.")
        
     # Default description input to None if no input 
-    description = input("Enter playlist description: ").strip().lower()
+    description = input("Enter playlist description: ".strip().lower())
     if not description:
         description = None # Default description to None
 
@@ -79,12 +75,20 @@ def update_playlist_info():
         
         # Update the chosen field
         if choice == '1':
-            new_name = validate_input("Enter new playlist name: ", validate_non_empty_string, "Name must be a string of 1 or more characters.")
-            playlist.name = new_name
+            new_name = validate_input("Enter new playlist name: ", playlist._set_not_empty_attribute, "Name must be a string of 1 or more characters.")
+            try:
+                # Validate that new_name is a string
+                playlist._set_string_attribute('name', new_name)
+                # Validate that new_name is not empty
+                playlist._set_not_empty_attribute('name', new_name)
+                playlist.name = new_name
+            except ValueError as verr:
+                print(f"Error: {verr}")
+                return
         elif choice == '2':
-            new_description = str(input("Enter the new description: ")).strip().lower()
-            if not isinstance(new_description, str):
-                raise TypeError("Playlist description must be a string between 0 and 50 characters") 
+            new_description = input("Enter the new description: ").strip().lower()
+            if not new_description:
+                new_description = None # Default to None
             playlist.description = new_description
         else:
             print("Invalid choice. No changes made.")
@@ -94,5 +98,5 @@ def update_playlist_info():
             playlist.update()
         except Exception as exc:
             print("Error updating playlist: ", exc)
-    else:
-        print(f"Song {given_name} not found.")      
+    #else:
+        #print(f"Playlist {given_name} not found.")      
