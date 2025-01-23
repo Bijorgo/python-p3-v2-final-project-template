@@ -15,15 +15,11 @@ def create_new_song():
         genre = None # Default genre to None
     # Take duration input, default to None
     duration = input("Enter duration: ").strip().lower()
-    #try:
     if  isinstance(duration, (float, int)):
         duration = float(duration)  # Convert to float
     else:
         duration = None # All other values default to None
-    #except ValueError:
-        #print("Invalid duration input. Please enter a valid number.")
-
-    # Try creating new song instance
+    # Try to create new instance
     try:
         Song.create(title, artist, genre, duration)
     except Exception as exc:
@@ -94,14 +90,10 @@ def update_song_info():
             song.genre = new_genre
         elif choice == '4':
             new_duration = input("Enter the new duration: ").strip()
-            try:
-                if new_duration:
-                    new_duration = float(duration)  # Convert to float if it's not empty
-                else:
-                    duration = None
-            except ValueError:
-                print("Invalid duration input. Please enter a valid number.")
-                return
+            if isinstance(new_duration, (int, float)):
+                new_duration = float(duration)  # Convert to float if it's an integer
+            else:
+                    duration = None # All other data types default to None
         else:
             print("Invalid choice. No changes made.")
             return
