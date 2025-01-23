@@ -34,7 +34,7 @@ def main():
 
 def menu():
     print("~~~~~~~~~~~~~~~~~~~~~")
-    print("~~Please select an option: ~~")
+    print("~~ Please select an option: ~~")
     print("~~~~~~~~~~~~~~~~~~~~~")
     print("1. Create Playlist or Song")
     print("2. Update Playlist Or Song")
