@@ -113,7 +113,6 @@ def playlist_contents():
     else:
         print("Invalid choice")
 
-
 def exit_program():
     print("Goodbye!")
     exit()

@@ -1,6 +1,7 @@
 from models.__init__ import CURSOR, CONN
 
 class Song:
+    from validations import validate_non_empty_string
     all_songs = {}
 
     def __init__(self, title, artist, genre=None, duration=None):
@@ -34,20 +35,16 @@ class Song:
     # All attribute setters
     @title.setter
     def title(self, title):
-        if not isinstance(title, str) or len(title) == 0: # Validation data type, length
-            raise ValueError("Title must be a string of one or more characters")
+        self.validate_non_empty_string("Title", title)
         self._title = title
 
     @artist.setter
     def artist(self, artist):
-        if not isinstance(artist, str) or len(artist) == 0: # Validation data type, length
-            raise ValueError("Artist must be a string one or more characters")
+        self.validate_non_empty_string("Artisr", artist)
         self._artist = artist
         
     @genre.setter
     def genre(self, genre):
-        if not isinstance(genre, str) and not None: # Validation data type
-            raise ValueError("Genre must be a string one or more characters")
         self._genre = genre
         
     @duration.setter
@@ -111,19 +108,7 @@ class Song:
         if not row or len(row) < 5:
             print(f"Invalid row data: {row}")
             return None  # Return None if the data is invalid
-
         song = cls.all_songs.get(row[0])
-        #if song:
-            # If song exists, update attributes
-            #song.title = row[1]
-            #song.artist = row[2]
-            #song.genre = row[3]
-            #song.duration = row[4]
-        #else:
-            # If song doesn't exist, create new instance
-            #song = cls(row[1], row[2], row[3], row[4])
-            #song.id = row[0]
-            #Song.all_songs[song.id] = song
         return song
     
     @classmethod

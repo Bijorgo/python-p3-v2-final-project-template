@@ -1,15 +1,6 @@
 # lib/playlist_helpers.py
 from models.playlist import Playlist
-from song_helpers import validate_non_empty_string
-
-def validate_input(prompt, validation_func, error_message):
-    """Reusable function for validating input."""
-    while True:
-        user_input = input(prompt).strip().lower()
-        if validation_func(user_input):
-            return user_input
-        else:
-            print(error_message)
+from validations import validate_non_empty_string, validate_input
 
 def create_new_playlist():
     Playlist.create_table() 

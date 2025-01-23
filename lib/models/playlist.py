@@ -1,7 +1,9 @@
 from models.__init__ import CURSOR, CONN
 
 class Playlist:
+    #from validations import _validate_string_attribute, validate_non_empty_string, _validate_not_empty_attribute
     all_playlists = {}
+
     def __init__(self, name, description=None):
         self.id = None  # id will be set in database
         self._name = name
@@ -20,18 +22,7 @@ class Playlist:
     def description(self):
         return self._description
     
-    # All property setters
-    # Helper methods for validation
-    def _validate_string_attribute(self, attribute_name, value):
-        """Helper method to validate string-based attributes."""
-        if not isinstance(value, str):
-            raise ValueError(f"{attribute_name} must be a string.")
-        
-    def _validate_not_empty_attribute(self, attribute_name, value):
-        """Helper method to validate non-empty attributes."""
-        if len(value) == 0:
-            raise ValueError(f"{attribute_name} must not be empty.")
-        
+    # All property setters        
     @name.setter
     def name(self, name):
         self._validate_string_attribute("Name", name)
@@ -117,6 +108,17 @@ class Playlist:
            return Playlist.instance_from_db(row) 
         else:
             return None
+        
+    @classmethod
+    def get_all(cls):
+        """Return a list containing a Playlist object per row in the table"""
+        sql = """
+            SELECT *
+            FROM playlists
+        """
+        rows = CURSOR.execute(sql).fetchall()
+        # Return as a list
+        return [Playlist.instance_from_db(row) for row in rows]
 
     # Instance methods
     def save(self):
@@ -158,14 +160,3 @@ class Playlist:
         # Set id to None
         self.id = None
         print(f"Playlist deleted.")
-
-    @classmethod
-    def get_all(cls):
-        """Return a list containing a Playlist object per row in the table"""
-        sql = """
-            SELECT *
-            FROM playlists
-        """
-        rows = CURSOR.execute(sql).fetchall()
-        # Return as a list
-        return [Playlist.instance_from_db(row) for row in rows]

@@ -1,19 +1,7 @@
 # lib/song_helpers.py
 
 from models.song import Song
-
-def validate_input(prompt, validation_func, error_message):
-    """Reusable function for validating input."""
-    while True:
-        user_input = str(input(prompt).strip().lower())
-        if validation_func(user_input):
-            return user_input
-        else:
-            print(error_message)
-
-def validate_non_empty_string(value):
-    """Helper function to validate a non-empty string."""
-    return isinstance(value, str) and len(value) >= 1
+from validations import validate_non_empty_string, validate_input
 
 def create_new_song():
     Song.create_table() # Check if table exist, if no: create table
